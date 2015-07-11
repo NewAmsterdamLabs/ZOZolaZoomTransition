@@ -6,8 +6,25 @@
 //  Copyright (c) 2015 Zola. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface ZOZolaZoomTransition : NSObject
+@protocol ZOZolaZoomTransitionDelegate;
+
+@interface ZOZolaZoomTransition : NSObject <UIViewControllerAnimatedTransitioning>
+
+@property (assign, nonatomic) BOOL isPresenting;
+
++ (instancetype)transitionFromView:(UIView *)fromView
+                          duration:(NSTimeInterval)duration
+                          delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
+
+@end
+
+@protocol ZOZolaZoomTransitionDelegate <NSObject>
+
+@required
+
++ (CGRect)zoomTransition:(ZOZolaZoomTransition *)zoomTransition destinationRectForView:(UIView *)view;
++ (CGRect)zoomTransition:(ZOZolaZoomTransition *)zoomTransition startingRectForView:(UIView *)view;
 
 @end
