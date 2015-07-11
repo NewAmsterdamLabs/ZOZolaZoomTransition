@@ -7,8 +7,11 @@
 //
 
 #import "ZODetailViewController.h"
+#import "ZOProduct.h"
 
 @interface ZODetailViewController ()
+
+@property (strong, nonatomic) ZOProduct *product;
 
 @end
 
@@ -16,12 +19,19 @@
 
 #pragma mark - Constructors
 
-- (instancetype)init {
+- (instancetype)initWithProduct:(ZOProduct *)product {
     self = [super init];
     if (self) {
-        self.title = @"Detail";
+        self.title = @"Product Details";
+        self.product = product;
     }
     return self;
+}
+
+#pragma mark - View Lifecycle
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
 }
 
 @end

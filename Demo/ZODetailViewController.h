@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class ZOProduct;
+
 @interface ZODetailViewController : UIViewController
+
+- (instancetype)initWithProduct:(ZOProduct *)product;
 
 @end
