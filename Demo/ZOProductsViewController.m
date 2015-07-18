@@ -10,9 +10,10 @@
 #import "ZODetailViewController.h"
 #import "ZOProduct.h"
 
-static NSString * ZOProductCellId       = @"ZOProductCell";
-static CGFloat ZOProductCellMargin      = 10.0;
-static CGFloat ZOProductCellSpacing     = 10.0;
+static NSString * ZOProductCellId           = @"ZOProductCell";
+static CGFloat ZOProductCellMargin          = 10.0;
+static CGFloat ZOProductCellSpacing         = 10.0;
+static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 
 @interface ZOProductsViewController ()
 
@@ -28,7 +29,7 @@ static CGFloat ZOProductCellSpacing     = 10.0;
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self = [super initWithCollectionViewLayout:flowLayout];
     if (self) {
-        self.title = @"Zola Zoom Demo";
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
     }
     return self;
 }
@@ -48,7 +49,7 @@ static CGFloat ZOProductCellSpacing     = 10.0;
     }
     self.products = products;
     
-    self.collectionView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
+    self.collectionView.backgroundColor = [UIColor colorWithWhite:0.97 alpha:1.0];
     [self.collectionView registerClass:[ZOProductCell class] forCellWithReuseIdentifier:ZOProductCellId];
 }
 
@@ -69,12 +70,14 @@ static CGFloat ZOProductCellSpacing     = 10.0;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    ZODetailViewController *detailController = [[ZODetailViewController alloc] initWithProduct:_products[indexPath.row]];
+    [self.navigationController pushViewController:detailController animated:YES];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    // cell width is half the screen width - edge margin - half the center margin
     CGFloat width = (self.collectionView.frame.size.width / 2.0) - ZOProductCellMargin - (ZOProductCellSpacing / 2.0);
-    return CGSizeMake(width, width + 40.0); // +40pt for the area below the image
+    return CGSizeMake(width, width + ZOProductCellTextAreaHeight);
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Methods

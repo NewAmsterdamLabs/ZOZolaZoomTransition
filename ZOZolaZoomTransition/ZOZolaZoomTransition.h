@@ -30,13 +30,13 @@
 @required
 
 + (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-      destinationRectForView:(UIView *)view
-          fromViewController:(UIViewController *)fromViewComtroller
+         startingRectForView:(UIView *)view
+          fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController;
 
 + (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-         startingRectForView:(UIView *)view
-          fromViewController:(UIViewController *)fromViewController
+      destinationRectForView:(UIView *)view
+          fromViewController:(UIViewController *)fromViewComtroller
             toViewController:(UIViewController *)toViewController;
 
 @end

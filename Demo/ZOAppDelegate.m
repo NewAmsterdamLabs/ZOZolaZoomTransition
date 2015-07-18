@@ -21,7 +21,11 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navigationController;
+    self.window.tintColor = [UIColor colorWithRed:80.0/255.0 green:178.0/255.0 blue:189.0/255.0 alpha:1.0];
     [self.window makeKeyAndVisible];
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav_bar_bg"] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     
     return YES;
 }
