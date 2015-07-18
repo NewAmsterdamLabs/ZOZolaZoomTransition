@@ -63,7 +63,7 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_products count];;
+    return [_products count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -111,7 +111,7 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
     // Create the transition
     return [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
                                                type:type
-                                           duration:5.0
+                                           duration:1.0
                                            delegate:self];
 }
 
@@ -122,8 +122,16 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
           fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController {
     
-    return [targetView convertRect:targetView.bounds toView:self.view];
-    
+    if (fromViewController == self) {
+        // push from products to detail
+        return [targetView convertRect:targetView.bounds toView:self.view];
+    } else if ([fromViewController isKindOfClass:[ZODetailViewController class]]) {
+        // pop from detail to products
+        ZODetailViewController *detailController = (ZODetailViewController *)fromViewController;
+        return [detailController imageViewFrame];
+    }
+
+    return CGRectZero;
 }
 
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
@@ -132,8 +140,10 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
             toViewController:(UIViewController *)toViewController {
     
     if (toViewController == self) {
-        
+        // pop from detail to products
+        return [targetView convertRect:targetView.bounds toView:self.view];
     } else if ([toViewController isKindOfClass:[ZODetailViewController class]]) {
+        // push from products to detail
         ZODetailViewController *detailController = (ZODetailViewController *)toViewController;
         return [detailController imageViewFrame];
     }
