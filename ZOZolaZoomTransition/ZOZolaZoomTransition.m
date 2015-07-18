@@ -8,13 +8,21 @@
 
 #import "ZOZolaZoomTransition.h"
 
-@interface UIView (ZolaSnapshot)
+@interface UIView (ZolaZoomSnapshot)
 
+/**
+ * The screenshot APIs introduced in iOS7 only work when the target
+ * view is already part of the hierarchy. We're defaulting to the newer
+ * API whenever possible (especially since it's faster), but we're falling
+ * back to this category whenever we need to screenshot a view that's
+ * offscreen.
+ *
+ */
 - (UIImage *)zo_snapshot;
 
 @end
 
-@implementation UIView (ZolaSnapshot)
+@implementation UIView (ZolaZoomSnapshot)
 
 - (UIImage *)zo_snapshot {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, [UIScreen mainScreen].scale);
@@ -40,7 +48,11 @@
 
 #pragma mark - Constructors
 
-+ (instancetype)transitionFromView:(UIView *)targetView type:(ZOTransitionType)type duration:(NSTimeInterval)duration delegate:(id<ZOZolaZoomTransitionDelegate>)delegate {
++ (instancetype)transitionFromView:(UIView *)targetView
+                              type:(ZOTransitionType)type
+                          duration:(NSTimeInterval)duration
+                          delegate:(id<ZOZolaZoomTransitionDelegate>)delegate {
+    
     ZOZolaZoomTransition *transition = [[[self class] alloc] init];
     transition.targetView = targetView;
     transition.type = type;
@@ -48,6 +60,7 @@
     transition.delegate = delegate;
     transition.backgroundColor = [UIColor whiteColor];
     return transition;
+    
 }
 
 #pragma mark - UIViewControllerAnimatedTransitioning Methods
@@ -59,6 +72,9 @@
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
+    // iOS7 and iOS8+ have different ways of obtaining the view from the view controller.
+    // Here we're taking care of that inconsistency upfront, so we don't have to deal with
+    // it later.
     UIView *fromControllerView = nil;
     UIView *toControllerView = nil;
     if ([transitionContext respondsToSelector:@selector(viewForKey:)]) {
@@ -71,6 +87,8 @@
         toControllerView = toViewController.view;
     }
     
+    // Setup a background view to prevent content from peeking through while our
+    // animation is in progress
     UIView *backgroundView = [[UIView alloc] initWithFrame:containerView.bounds];
     backgroundView.backgroundColor = _backgroundColor;
     backgroundView.alpha = 1.0;
@@ -87,34 +105,45 @@
                                      toViewController:toViewController];
     
     if (_type == ZOTransitionTypePresenting) {
-        CGFloat scaleFactor = finishRect.size.width / startRect.size.width;
-        CGPoint endOriginPoint = CGPointMake((-startRect.origin.x * scaleFactor) + finishRect.origin.x, (-startRect.origin.y * scaleFactor) + finishRect.origin.y);
+        // The "from" snapshot
+        UIView *fromControllerSnapshot = [fromControllerView snapshotViewAfterScreenUpdates:NO];
         
+        // The color view will sit between the "from" snapshot and the target snapshot.
+        // This is what is used to create the fade effect.
         UIView *colorView = [[UIView alloc] initWithFrame:containerView.bounds];
         colorView.backgroundColor = _backgroundColor;
         colorView.alpha = 0.0;
         
+        // The star of the show
         UIView *targetSnapshot = [_targetView snapshotViewAfterScreenUpdates:NO];
         targetSnapshot.frame = startRect;
         
-        UIView *fromControllerSnapshot = [fromControllerView snapshotViewAfterScreenUpdates:NO];
-        
+        // Assemble the hierarchy in the container
         [containerView addSubview:fromControllerSnapshot];
         [containerView addSubview:colorView];
         [containerView addSubview:targetSnapshot];
         
+        // Determine how much we need to scale
+        CGFloat scaleFactor = finishRect.size.width / startRect.size.width;
+        
+        // Calculate the ending origin point for the "from" snapshot taking into account the scale transformation
+        CGPoint endPoint = CGPointMake((-startRect.origin.x * scaleFactor) + finishRect.origin.x, (-startRect.origin.y * scaleFactor) + finishRect.origin.y);
+        
+        // Animate presentation
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              fromControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
-                             fromControllerSnapshot.frame = CGRectMake(endOriginPoint.x, endOriginPoint.y, fromControllerSnapshot.frame.size.width, fromControllerSnapshot.frame.size.height);
+                             fromControllerSnapshot.frame = CGRectMake(endPoint.x, endPoint.y, fromControllerSnapshot.frame.size.width, fromControllerSnapshot.frame.size.height);
                              
                              colorView.alpha = 1.0;
                              targetSnapshot.frame = finishRect;
                          } completion:^(BOOL finished) {
+                             // Add "to" controller view
                              [containerView addSubview:toControllerView];
                              
+                             // Cleanup our animation views
                              [backgroundView removeFromSuperview];
                              [fromControllerSnapshot removeFromSuperview];
                              [colorView removeFromSuperview];
@@ -125,25 +154,36 @@
                              [transitionContext completeTransition:finished];
                          }];
     } else {
-        CGFloat scaleFactor = startRect.size.width / finishRect.size.width;
-        CGPoint startOriginPoint = CGPointMake((-finishRect.origin.x * scaleFactor) + startRect.origin.x, (-finishRect.origin.y * scaleFactor) + startRect.origin.y);
-        
-        UIImageView *targetSnapshot = [[UIImageView alloc] initWithImage:[_targetView zo_snapshot]];
-        targetSnapshot.frame = startRect;
+        // Since the "to" controller isn't currently part of the view hierarchy, we need to use the
+        // old snapshot API
+        UIImageView *toControllerSnapshot = [[UIImageView alloc] initWithImage:[toControllerView zo_snapshot]];
         
         UIView *colorView = [[UIView alloc] initWithFrame:containerView.bounds];
         colorView.backgroundColor = _backgroundColor;
         colorView.alpha = 1.0;
         
-        UIImageView *toControllerSnapshot = [[UIImageView alloc] initWithImage:[toControllerView zo_snapshot]];;
+        // The star of the show again (this time with the old snapshot API)
+        UIImageView *targetSnapshot = [[UIImageView alloc] initWithImage:[_targetView zo_snapshot]];
+        targetSnapshot.frame = startRect;
         
+        // We're switching the values such that the scale factor returns the same result
+        // as when we were presenting
+        CGFloat scaleFactor = startRect.size.width / finishRect.size.width;
+        
+        // This is also the same equation used when presenting and will result in the same point,
+        // except this time it's the start point for the animation
+        CGPoint startPoint = CGPointMake((-finishRect.origin.x * scaleFactor) + startRect.origin.x, (-finishRect.origin.y * scaleFactor) + startRect.origin.y);
+        
+        // Apply the transformation and set the origin before the animation begins
         toControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
-        toControllerSnapshot.frame = CGRectMake(startOriginPoint.x, startOriginPoint.y, toControllerSnapshot.frame.size.width, toControllerSnapshot.frame.size.height);
+        toControllerSnapshot.frame = CGRectMake(startPoint.x, startPoint.y, toControllerSnapshot.frame.size.width, toControllerSnapshot.frame.size.height);
         
+        // Assemble the view hierarchy in the container
         [containerView addSubview:toControllerSnapshot];
         [containerView addSubview:colorView];
         [containerView addSubview:targetSnapshot];
         
+        // Animate dismissal
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
@@ -154,8 +194,10 @@
                              colorView.alpha = 0.0;
                              targetSnapshot.frame = finishRect;
                          } completion:^(BOOL finished) {
+                             // Add "to" controller view
                              [containerView addSubview:toControllerView];
                              
+                             // Cleanup our animation views
                              [backgroundView removeFromSuperview];
                              [toControllerSnapshot removeFromSuperview];
                              [colorView removeFromSuperview];

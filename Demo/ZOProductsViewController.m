@@ -123,10 +123,8 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
             toViewController:(UIViewController *)toViewController {
     
     if (fromViewController == self) {
-        // push from products to detail
         return [targetView convertRect:targetView.bounds toView:self.view];
     } else if ([fromViewController isKindOfClass:[ZODetailViewController class]]) {
-        // pop from detail to products
         ZODetailViewController *detailController = (ZODetailViewController *)fromViewController;
         return [detailController imageViewFrame];
     }
@@ -140,13 +138,21 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
             toViewController:(UIViewController *)toViewController {
     
     if (toViewController == self) {
-        // pop from detail to products
         return [targetView convertRect:targetView.bounds toView:self.view];
     } else if ([toViewController isKindOfClass:[ZODetailViewController class]]) {
-        // push from products to detail
         ZODetailViewController *detailController = (ZODetailViewController *)toViewController;
         return [detailController imageViewFrame];
     }
+    
+    return CGRectZero;
+}
+
+- (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition {
+    return nil;
+}
+
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+   frameForSupplementaryView:(UIView *)supplementaryView {
     
     return CGRectZero;
 }
