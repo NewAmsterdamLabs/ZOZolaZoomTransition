@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZOProductsViewController : UICollectionViewController
+@interface ZOProductsViewController : UICollectionViewController <UINavigationControllerDelegate>
 
 @end
 

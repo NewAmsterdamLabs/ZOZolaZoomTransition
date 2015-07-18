@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) id<ZOZolaZoomTransitionDelegate> delegate;
 @property (assign, nonatomic) NSTimeInterval duration;
+@property (assign, nonatomic) ZOTransitionType type;
 @property (assign, nonatomic) CGRect startTargetRect;
 @property (assign, nonatomic) CGFloat scaleFactor;
 @property (assign, nonatomic) CGPoint endOriginPoint;
@@ -54,7 +55,7 @@
         toControllerView = toViewController.view;
     }
     
-    if (self.isPresenting) {
+    if (_type == ZOTransitionTypePresenting) {
         
     } else {
         

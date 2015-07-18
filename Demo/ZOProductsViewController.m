@@ -39,6 +39,8 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.delegate = self;
+    
     // Load demo data
     NSMutableArray *products = [[NSMutableArray alloc] initWithCapacity:10];
     for (NSInteger i=0; i<10; i++) {
@@ -92,6 +94,12 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return ZOProductCellSpacing;
+}
+
+#pragma mark - UINavigationControllerDelegate Methods
+
+- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC {
+    return nil;
 }
 
 @end

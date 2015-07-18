@@ -10,12 +10,16 @@
 
 @protocol ZOZolaZoomTransitionDelegate;
 
-@interface ZOZolaZoomTransition : NSObject <UIViewControllerAnimatedTransitioning>
+typedef NS_ENUM(NSInteger, ZOTransitionType) {
+    ZOTransitionTypePresenting,
+    ZOTransitionTypeDismissing
+};
 
-@property (assign, nonatomic) BOOL isPresenting;
+@interface ZOZolaZoomTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
 + (instancetype)transitionFromView:(UIView *)targetView
                           duration:(NSTimeInterval)duration
+                              type:(ZOTransitionType)type
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
 
 @end
@@ -36,13 +40,9 @@
 
 @optional
 
-+ (NSArray *)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-supplementaryViewsFromViewController:(UIViewController *)fromViewController
-               toViewController:(UIViewController *)toViewController;
++ (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition;
 
 + (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-   frameForSupplementaryView:(UIView *)view
-          fromViewController:(UIViewController *)fromViewComtroller
-            toViewController:(UIViewController *)toViewController;
+   frameForSupplementaryView:(UIView *)view;
 
 @end
