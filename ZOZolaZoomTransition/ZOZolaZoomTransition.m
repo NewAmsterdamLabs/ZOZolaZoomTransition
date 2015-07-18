@@ -8,6 +8,25 @@
 
 #import "ZOZolaZoomTransition.h"
 
+@interface UIView (ZolaSnapshot)
+
+- (UIImage *)zo_snapshot;
+
+@end
+
+@implementation UIView (ZolaSnapshot)
+
+- (UIImage *)zo_snapshot {
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, [UIScreen mainScreen].scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self.layer renderInContext:context];
+    UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return snapshot;
+}
+
+@end
+
 @interface ZOZolaZoomTransition ()
 
 @property (weak, nonatomic) id<ZOZolaZoomTransitionDelegate> delegate;
@@ -109,14 +128,14 @@
         CGFloat scaleFactor = startRect.size.width / finishRect.size.width;
         CGPoint startOriginPoint = CGPointMake((-finishRect.origin.x * scaleFactor) + startRect.origin.x, (-finishRect.origin.y * scaleFactor) + startRect.origin.y);
         
-        UIView *targetSnapshot = [_targetView snapshotViewAfterScreenUpdates:YES];
+        UIImageView *targetSnapshot = [[UIImageView alloc] initWithImage:[_targetView zo_snapshot]];
         targetSnapshot.frame = startRect;
         
         UIView *colorView = [[UIView alloc] initWithFrame:containerView.bounds];
         colorView.backgroundColor = _backgroundColor;
         colorView.alpha = 1.0;
         
-        UIView *toControllerSnapshot = [toControllerView snapshotViewAfterScreenUpdates:YES];
+        UIImageView *toControllerSnapshot = [[UIImageView alloc] initWithImage:[toControllerView zo_snapshot]];;
         
         toControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
         toControllerSnapshot.frame = CGRectMake(startOriginPoint.x, startOriginPoint.y, toControllerSnapshot.frame.size.width, toControllerSnapshot.frame.size.height);
