@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZOZolaZoomTransition.h"
 
-@interface ZOProductsViewController : UICollectionViewController <UINavigationControllerDelegate>
+@interface ZOProductsViewController : UICollectionViewController <ZOZolaZoomTransitionDelegate, UINavigationControllerDelegate>
 
 @end
 

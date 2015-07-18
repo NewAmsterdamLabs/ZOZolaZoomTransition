@@ -14,4 +14,6 @@
 
 - (instancetype)initWithProduct:(ZOProduct *)product;
 
+- (CGRect)imageViewFrame;
+
 @end

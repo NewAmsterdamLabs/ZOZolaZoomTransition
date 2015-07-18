@@ -18,9 +18,11 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 @interface ZOZolaZoomTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
 + (instancetype)transitionFromView:(UIView *)targetView
-                          duration:(NSTimeInterval)duration
                               type:(ZOTransitionType)type
+                          duration:(NSTimeInterval)duration
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
+
+@property (strong, nonatomic) UIColor *backgroundColor;
 
 @end
 
@@ -28,21 +30,25 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 
 @required
 
-+ (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-        startingFrameForView:(UIView *)view
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+        startingFrameForView:(UIView *)targetView
+         relativeToContainer:(UIView *)containerView
           fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController;
 
-+ (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-     destinationFrameForView:(UIView *)view
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+       finishingFrameForView:(UIView *)targetView
+         relativeToContainer:(UIView *)containerView
           fromViewController:(UIViewController *)fromViewComtroller
             toViewController:(UIViewController *)toViewController;
 
 @optional
 
-+ (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition;
+- (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+                                 relativeToContainer:(UIView *)containerView;
 
-+ (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-   frameForSupplementaryView:(UIView *)view;
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+   frameForSupplementaryView:(UIView *)supplementaryView
+         relativeToContainer:(UIView *)containerView;
 
 @end

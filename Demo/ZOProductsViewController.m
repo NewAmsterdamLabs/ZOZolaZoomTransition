@@ -18,6 +18,7 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 @interface ZOProductsViewController ()
 
 @property (strong, nonatomic) NSArray *products;
+@property (strong, nonatomic) ZOProductCell *selectedCell;
 
 @end
 
@@ -72,12 +73,14 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedCell = (ZOProductCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    
     ZODetailViewController *detailController = [[ZODetailViewController alloc] initWithProduct:_products[indexPath.row]];
     [self.navigationController pushViewController:detailController animated:YES];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    // cell width is half the screen width - edge margin - half the center margin
+    // Cell width is half the screen width - edge margin - half the center margin
     CGFloat width = (self.collectionView.frame.size.width / 2.0) - ZOProductCellMargin - (ZOProductCellSpacing / 2.0);
     return CGSizeMake(width, width + ZOProductCellTextAreaHeight);
 }
@@ -99,7 +102,39 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 #pragma mark - UINavigationControllerDelegate Methods
 
 - (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC {
-    return nil;
+    // Sanity
+    if (fromVC != self && toVC != self) return nil;
+    
+    // Determine if we're presenting or dismissing
+    ZOTransitionType type = (fromVC == self) ? ZOTransitionTypePresenting : ZOTransitionTypeDismissing;
+    
+    // Create the transition
+    return [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
+                                               type:type
+                                           duration:5.0
+                                           delegate:self];
+}
+
+#pragma mark - ZOZolaZoomTransitionDelegate Methods
+
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+        startingFrameForView:(UIView *)targetView
+         relativeToContainer:(UIView *)containerView
+          fromViewController:(UIViewController *)fromViewController
+            toViewController:(UIViewController *)toViewController {
+    
+    return [targetView convertRect:targetView.bounds toView:containerView];
+    
+}
+
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition finishingFrameForView:(UIView *)targetView relativeToContainer:(UIView *)containerView fromViewController:(UIViewController *)fromViewComtroller toViewController:(UIViewController *)toViewController {
+    if (toViewController == self) {
+        
+    } else if ([toViewController isKindOfClass:[ZODetailViewController class]]) {
+        ZODetailViewController *detailController = (ZODetailViewController *)toViewController;
+        return [detailController imageViewFrame];
+    }
+    return CGRectZero;
 }
 
 @end
