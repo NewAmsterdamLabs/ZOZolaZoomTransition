@@ -11,7 +11,7 @@
 @interface UIView (ZolaZoomSnapshot)
 
 /**
- * The screenshot APIs introduced in iOS7 only work when the target
+ * The screenshot APIs introduced in iOS7 only workS when the target
  * view is already part of the hierarchy. We're defaulting to the newer
  * API whenever possible (especially since it's faster), but we're falling
  * back to this category whenever we need to screenshot a view that's
