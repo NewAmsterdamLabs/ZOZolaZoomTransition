@@ -11,13 +11,9 @@
 @interface ZOZolaZoomTransition ()
 
 @property (weak, nonatomic) id<ZOZolaZoomTransitionDelegate> delegate;
-@property (assign, nonatomic) NSTimeInterval duration;
-@property (assign, nonatomic) ZOTransitionType type;
 @property (strong, nonatomic) UIView *targetView;
-
-@property (strong, nonatomic) UIView *supplementaryContainer;
-@property (strong, nonatomic) NSArray *supplementaryViews;
-@property (strong, nonatomic) NSArray *supplementarySnapshots;
+@property (assign, nonatomic) ZOTransitionType type;
+@property (assign, nonatomic) NSTimeInterval duration;
 
 @end
 
@@ -28,6 +24,7 @@
 + (instancetype)transitionFromView:(UIView *)targetView type:(ZOTransitionType)type duration:(NSTimeInterval)duration delegate:(id<ZOZolaZoomTransitionDelegate>)delegate {
     ZOZolaZoomTransition *transition = [[[self class] alloc] init];
     transition.targetView = targetView;
+    transition.type = type;
     transition.duration = duration;
     transition.delegate = delegate;
     transition.backgroundColor = [UIColor whiteColor];
@@ -46,23 +43,25 @@
     UIView *fromControllerView = nil;
     UIView *toControllerView = nil;
     if ([transitionContext respondsToSelector:@selector(viewForKey:)]) {
+        // iOS8+
         fromControllerView = [transitionContext viewForKey:UITransitionContextFromViewKey];
         toControllerView = [transitionContext viewForKey:UITransitionContextToViewKey];
     } else {
+        // iOS7
         fromControllerView = fromViewController.view;
         toControllerView = toViewController.view;
     }
     
     UIView *backgroundView = [[UIView alloc] initWithFrame:containerView.bounds];
-    backgroundView.backgroundColor = self.backgroundColor;
+    backgroundView.backgroundColor = _backgroundColor;
     backgroundView.alpha = 1.0;
     [containerView addSubview:backgroundView];
     
     if (_type == ZOTransitionTypePresenting) {
-        UIView *fromSnapshot = [fromControllerView snapshotViewAfterScreenUpdates:NO];
+        UIView *fromControllerSnapshot = [fromControllerView snapshotViewAfterScreenUpdates:NO];
         
-        CGRect startRect = [_delegate zolaZoomTransition:self startingFrameForView:_targetView relativeToContainer:containerView fromViewController:fromViewController toViewController:toViewController];
-        CGRect finishRect = [_delegate zolaZoomTransition:self finishingFrameForView:_targetView relativeToContainer:containerView fromViewController:fromViewController toViewController:toViewController];
+        CGRect startRect = [_delegate zolaZoomTransition:self startingFrameForView:_targetView fromViewController:fromViewController toViewController:toViewController];
+        CGRect finishRect = [_delegate zolaZoomTransition:self finishingFrameForView:_targetView fromViewController:fromViewController toViewController:toViewController];
         
         CGFloat scaleFactor = finishRect.size.width / startRect.size.width;
         CGAffineTransform transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
@@ -72,29 +71,29 @@
         UIView *targetSnapshot = [_targetView snapshotViewAfterScreenUpdates:NO];
         targetSnapshot.frame = startRect;
         
-        UIView *whiteView = [[UIView alloc] initWithFrame:containerView.bounds];
-        whiteView.backgroundColor = _backgroundColor;
-        whiteView.alpha = 0.0;
+        UIView *colorView = [[UIView alloc] initWithFrame:containerView.bounds];
+        colorView.backgroundColor = _backgroundColor;
+        colorView.alpha = 0.0;
         
-        [containerView addSubview:fromSnapshot];
-        [containerView addSubview:whiteView];
+        [containerView addSubview:fromControllerSnapshot];
+        [containerView addSubview:colorView];
         [containerView addSubview:targetSnapshot];
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             fromSnapshot.transform = transform;
-                             fromSnapshot.frame = CGRectMake(endOriginPoint.x, endOriginPoint.y, fromSnapshot.frame.size.width, fromSnapshot.frame.size.height);
+                             fromControllerSnapshot.transform = transform;
+                             fromControllerSnapshot.frame = CGRectMake(endOriginPoint.x, endOriginPoint.y, fromControllerSnapshot.frame.size.width, fromControllerSnapshot.frame.size.height);
                              
-                             whiteView.alpha = 1.0;
+                             colorView.alpha = 1.0;
                              targetSnapshot.frame = finishRect;
                          } completion:^(BOOL finished) {
                              [containerView addSubview:toControllerView];
                              
                              [backgroundView removeFromSuperview];
-                             [fromSnapshot removeFromSuperview];
-                             [whiteView removeFromSuperview];
+                             [fromControllerSnapshot removeFromSuperview];
+                             [colorView removeFromSuperview];
                              [targetSnapshot removeFromSuperview];
                              
                              [[UIApplication sharedApplication] endIgnoringInteractionEvents];

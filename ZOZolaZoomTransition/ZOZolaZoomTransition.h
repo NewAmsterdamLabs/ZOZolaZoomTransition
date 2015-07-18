@@ -32,23 +32,19 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
         startingFrameForView:(UIView *)targetView
-         relativeToContainer:(UIView *)containerView
           fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController;
 
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
        finishingFrameForView:(UIView *)targetView
-         relativeToContainer:(UIView *)containerView
           fromViewController:(UIViewController *)fromViewComtroller
             toViewController:(UIViewController *)toViewController;
 
 @optional
 
-- (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-                                 relativeToContainer:(UIView *)containerView;
+- (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition;
 
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-   frameForSupplementaryView:(UIView *)supplementaryView
-         relativeToContainer:(UIView *)containerView;
+   frameForSupplementaryView:(UIView *)supplementaryView;
 
 @end
