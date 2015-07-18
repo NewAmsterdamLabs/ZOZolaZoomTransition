@@ -14,7 +14,12 @@
 
 @property (assign, nonatomic) BOOL isPresenting;
 
-+ (instancetype)transitionFromView:(UIView *)fromView
++ (instancetype)transitionFromView:(UIView *)targetView
+                          duration:(NSTimeInterval)duration
+                          delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
+
++ (instancetype)transitionFromView:(UIView *)targetView
+                supplementaryViews:(NSArray *)supplementaryViews
                           duration:(NSTimeInterval)duration
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
 
@@ -24,7 +29,14 @@
 
 @required
 
-+ (CGRect)zoomTransition:(ZOZolaZoomTransition *)zoomTransition destinationRectForView:(UIView *)view;
-+ (CGRect)zoomTransition:(ZOZolaZoomTransition *)zoomTransition startingRectForView:(UIView *)view;
++ (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+      destinationRectForView:(UIView *)view
+          fromViewController:(UIViewController *)fromViewComtroller
+            toViewController:(UIViewController *)toViewController;
+
++ (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+         startingRectForView:(UIView *)view
+          fromViewController:(UIViewController *)fromViewController
+            toViewController:(UIViewController *)toViewController;
 
 @end

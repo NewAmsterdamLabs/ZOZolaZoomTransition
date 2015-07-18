@@ -42,7 +42,8 @@ static CGFloat ZOProductCellSpacing     = 10.0;
     NSMutableArray *products = [[NSMutableArray alloc] initWithCapacity:10];
     for (NSInteger i=0; i<10; i++) {
         ZOProduct *product = [[ZOProduct alloc] init];
-        product.title = [NSString stringWithFormat:@"Product %ld", i + 1];
+        product.title = [NSString stringWithFormat:@"Product %ld", i];
+        product.imageName = [NSString stringWithFormat:@"product_%ld.jpg", i];
         [products addObject:product];
     }
     self.products = products;
@@ -73,7 +74,7 @@ static CGFloat ZOProductCellSpacing     = 10.0;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat width = (self.collectionView.frame.size.width / 2.0) - ZOProductCellMargin - (ZOProductCellSpacing / 2.0);
-    return CGSizeMake(width, width + 40.0);
+    return CGSizeMake(width, width + 40.0); // +40pt for the area below the image
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Methods
@@ -116,6 +117,9 @@ static CGFloat ZOProductCellSpacing     = 10.0;
         _titleLabel.font = [UIFont systemFontOfSize:13.0];
         _titleLabel.numberOfLines = 2;
         [self.contentView addSubview:_titleLabel];
+        
+        self.layer.borderWidth = 1.0;
+        self.layer.borderColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
     }
     return self;
 }
