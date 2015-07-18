@@ -18,11 +18,6 @@
                           duration:(NSTimeInterval)duration
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
 
-+ (instancetype)transitionFromView:(UIView *)targetView
-                supplementaryViews:(NSArray *)supplementaryViews
-                          duration:(NSTimeInterval)duration
-                          delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
-
 @end
 
 @protocol ZOZolaZoomTransitionDelegate <NSObject>
@@ -30,12 +25,23 @@
 @required
 
 + (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-         startingRectForView:(UIView *)view
+        startingFrameForView:(UIView *)view
           fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController;
 
 + (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-      destinationRectForView:(UIView *)view
+     destinationFrameForView:(UIView *)view
+          fromViewController:(UIViewController *)fromViewComtroller
+            toViewController:(UIViewController *)toViewController;
+
+@optional
+
++ (NSArray *)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+supplementaryViewsFromViewController:(UIViewController *)fromViewController
+               toViewController:(UIViewController *)toViewController;
+
++ (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+   frameForSupplementaryView:(UIView *)view
           fromViewController:(UIViewController *)fromViewComtroller
             toViewController:(UIViewController *)toViewController;
 

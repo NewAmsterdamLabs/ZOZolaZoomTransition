@@ -28,13 +28,8 @@
 #pragma mark - Constructors
 
 + (instancetype)transitionFromView:(UIView *)targetView duration:(NSTimeInterval)duration delegate:(id<ZOZolaZoomTransitionDelegate>)delegate {
-    return [self transitionFromView:targetView supplementaryViews:nil duration:duration delegate:delegate];
-}
-
-+ (instancetype)transitionFromView:(UIView *)targetView supplementaryViews:(NSArray *)supplementaryViews duration:(NSTimeInterval)duration delegate:(id<ZOZolaZoomTransitionDelegate>)delegate {
     ZOZolaZoomTransition *transition = [[[self class] alloc] init];
     transition.targetView = targetView;
-    transition.supplementaryViews = supplementaryViews;
     transition.duration = duration;
     transition.delegate = delegate;
     return transition;
