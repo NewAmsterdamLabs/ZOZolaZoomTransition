@@ -94,15 +94,15 @@
     backgroundView.alpha = 1.0;
     [containerView addSubview:backgroundView];
     
-    CGRect startRect = [_delegate zolaZoomTransition:self
-                                startingFrameForView:_targetView
-                                  fromViewController:fromViewController
-                                    toViewController:toViewController];
-    
-    CGRect finishRect = [_delegate zolaZoomTransition:self
-                                finishingFrameForView:_targetView
+    CGRect startFrame = [_delegate zolaZoomTransition:self
+                                 startingFrameForView:_targetView
                                    fromViewController:fromViewController
                                      toViewController:toViewController];
+    
+    CGRect finishFrame = [_delegate zolaZoomTransition:self
+                                 finishingFrameForView:_targetView
+                                    fromViewController:fromViewController
+                                      toViewController:toViewController];
     
     if (_type == ZOTransitionTypePresenting) {
         // The "from" snapshot
@@ -116,7 +116,7 @@
         
         // The star of the show
         UIView *targetSnapshot = [_targetView snapshotViewAfterScreenUpdates:NO];
-        targetSnapshot.frame = startRect;
+        targetSnapshot.frame = startFrame;
         
         // Assemble the hierarchy in the container
         [containerView addSubview:fromControllerSnapshot];
@@ -124,10 +124,10 @@
         [containerView addSubview:targetSnapshot];
         
         // Determine how much we need to scale
-        CGFloat scaleFactor = finishRect.size.width / startRect.size.width;
+        CGFloat scaleFactor = finishFrame.size.width / startFrame.size.width;
         
         // Calculate the ending origin point for the "from" snapshot taking into account the scale transformation
-        CGPoint endPoint = CGPointMake((-startRect.origin.x * scaleFactor) + finishRect.origin.x, (-startRect.origin.y * scaleFactor) + finishRect.origin.y);
+        CGPoint endPoint = CGPointMake((-startFrame.origin.x * scaleFactor) + finishFrame.origin.x, (-startFrame.origin.y * scaleFactor) + finishFrame.origin.y);
         
         // Animate presentation
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
@@ -138,7 +138,7 @@
                              fromControllerSnapshot.frame = CGRectMake(endPoint.x, endPoint.y, fromControllerSnapshot.frame.size.width, fromControllerSnapshot.frame.size.height);
                              
                              colorView.alpha = 1.0;
-                             targetSnapshot.frame = finishRect;
+                             targetSnapshot.frame = finishFrame;
                          } completion:^(BOOL finished) {
                              // Add "to" controller view
                              [containerView addSubview:toControllerView];
@@ -164,15 +164,15 @@
         
         // The star of the show again (this time with the old snapshot API)
         UIImageView *targetSnapshot = [[UIImageView alloc] initWithImage:[_targetView zo_snapshot]];
-        targetSnapshot.frame = startRect;
+        targetSnapshot.frame = startFrame;
         
         // We're switching the values such that the scale factor returns the same result
         // as when we were presenting
-        CGFloat scaleFactor = startRect.size.width / finishRect.size.width;
+        CGFloat scaleFactor = startFrame.size.width / finishFrame.size.width;
         
         // This is also the same equation used when presenting and will result in the same point,
         // except this time it's the start point for the animation
-        CGPoint startPoint = CGPointMake((-finishRect.origin.x * scaleFactor) + startRect.origin.x, (-finishRect.origin.y * scaleFactor) + startRect.origin.y);
+        CGPoint startPoint = CGPointMake((-finishFrame.origin.x * scaleFactor) + startFrame.origin.x, (-finishFrame.origin.y * scaleFactor) + startFrame.origin.y);
         
         // Apply the transformation and set the origin before the animation begins
         toControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
@@ -192,7 +192,7 @@
                              toControllerSnapshot.frame = toControllerView.frame;
                              
                              colorView.alpha = 0.0;
-                             targetSnapshot.frame = finishRect;
+                             targetSnapshot.frame = finishFrame;
                          } completion:^(BOOL finished) {
                              // Add "to" controller view
                              [containerView addSubview:toControllerView];
