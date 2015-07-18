@@ -111,7 +111,7 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
     // Create the transition
     return [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
                                                type:type
-                                           duration:1.0
+                                           duration:0.65
                                            delegate:self];
 }
 
