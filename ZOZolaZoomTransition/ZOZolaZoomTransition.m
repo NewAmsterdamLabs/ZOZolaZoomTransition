@@ -94,11 +94,13 @@
     backgroundView.alpha = 1.0;
     [containerView addSubview:backgroundView];
     
+    // Ask the delegate for the target view's starting frame
     CGRect startFrame = [_delegate zolaZoomTransition:self
                                  startingFrameForView:_targetView
                                    fromViewController:fromViewController
                                      toViewController:toViewController];
     
+    // Ask the delegate for the target view's finishing frame
     CGRect finishFrame = [_delegate zolaZoomTransition:self
                                  finishingFrameForView:_targetView
                                     fromViewController:fromViewController
