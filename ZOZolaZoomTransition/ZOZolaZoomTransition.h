@@ -24,16 +24,41 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
  */
 @interface ZOZolaZoomTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
+/**
+ Initializes a `ZOZolaZoomTransition` object with a target view.
+ 
+ This is the designated initializer.
+ 
+ @param targetView The view to be zoomed
+ @param type The animation type, presenting or dismissing
+ @param duration The animation duration
+ @param delegate The transition delegate
+ 
+ @return The newly-initialized `ZOZolaZoomTransition` instance
+ */
 - (instancetype)initWithTargetView:(UIView *)targetView
                               type:(ZOTransitionType)type
                           duration:(NSTimeInterval)duration
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
+/**
+ Convienence initializer for some syntactical sugar.
+ 
+ @param targetView The view to be zoomed
+ @param type The animation type, presenting or dismissing
+ @param duration The animation duration
+ @param delegate The transition delegate
+ 
+ @return The newly-initialized `ZOZolaZoomTransition` instance
+ */
 + (instancetype)transitionFromView:(UIView *)targetView
                               type:(ZOTransitionType)type
                           duration:(NSTimeInterval)duration
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
 
+/**
+ The "fade-through" color used during the animation. Default is `[UIColor whiteColor]`.
+ */
 @property (strong, nonatomic) UIColor *backgroundColor;
 
 @end
