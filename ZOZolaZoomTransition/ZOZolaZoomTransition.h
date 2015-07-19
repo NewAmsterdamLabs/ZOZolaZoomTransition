@@ -15,7 +15,19 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
     ZOTransitionTypeDismissing
 };
 
+/**
+ `ZOZolaZoomTransition` is an animated transition used extensively in the Zola iOS application.
+ In addition to zooming a target view, it also animates the entire heirarchy in which the target
+ view is a part of, resulting in a unique "z-level" animation effect. `ZOZolaZoomTransition`
+ conforms to `UIViewControllerAnimatedTransitioning` and can be used for both navigation controller
+ transitions and modal transitions.
+ */
 @interface ZOZolaZoomTransition : NSObject <UIViewControllerAnimatedTransitioning>
+
+- (instancetype)initWithTargetView:(UIView *)targetView
+                              type:(ZOTransitionType)type
+                          duration:(NSTimeInterval)duration
+                          delegate:(id<ZOZolaZoomTransitionDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
 + (instancetype)transitionFromView:(UIView *)targetView
                               type:(ZOTransitionType)type

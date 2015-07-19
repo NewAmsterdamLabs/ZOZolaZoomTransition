@@ -14,7 +14,7 @@
  * The screenshot APIs introduced in iOS7 only work when the target
  * view is already part of the hierarchy. We're defaulting to the newer
  * API whenever possible (especially since it's faster), but we're falling
- * back to this category whenever we need to screenshot a view that's
+ * back to this category whenever we need to snapshot a view that's
  * offscreen. As a general rule for ZOZolaZoomTransition, all views when
  * presenting are already in the hierarchy and can use the newer API. The
  * opposite is true when dismissing, so we rely on this category.
@@ -50,19 +50,31 @@
 
 #pragma mark - Constructors
 
+- (instancetype)initWithTargetView:(UIView *)targetView
+                              type:(ZOTransitionType)type
+                          duration:(NSTimeInterval)duration
+                          delegate:(id<ZOZolaZoomTransitionDelegate>)delegate {
+    
+    self = [super init];
+    if (self) {
+        self.targetView = targetView;
+        self.type = type;
+        self.duration = duration;
+        self.delegate = delegate;
+        self.backgroundColor = [UIColor whiteColor];
+    }
+    return self;
+}
+
 + (instancetype)transitionFromView:(UIView *)targetView
                               type:(ZOTransitionType)type
                           duration:(NSTimeInterval)duration
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate {
     
-    ZOZolaZoomTransition *transition = [[[self class] alloc] init];
-    transition.targetView = targetView;
-    transition.type = type;
-    transition.duration = duration;
-    transition.delegate = delegate;
-    transition.backgroundColor = [UIColor whiteColor];
-    return transition;
-    
+    return [[[self class] alloc] initWithTargetView:targetView
+                                               type:type
+                                           duration:duration
+                                           delegate:delegate];
 }
 
 #pragma mark - UIViewControllerAnimatedTransitioning Methods
