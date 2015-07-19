@@ -15,7 +15,9 @@
  * view is already part of the hierarchy. We're defaulting to the newer
  * API whenever possible (especially since it's faster), but we're falling
  * back to this category whenever we need to screenshot a view that's
- * offscreen. 
+ * offscreen. As a general rule for ZOZolaZoomTransition, all views when
+ * presenting are already in the hierarchy and can use the newer API. The
+ * opposite is true when dismissing, so we rely on this category.
  *
  */
 - (UIImage *)zo_snapshot;
@@ -127,8 +129,8 @@
             supplementaryViews = [_delegate supplementaryViewsForZolaZoomTransition:self];
         }
 
-        // All supplementary views are added to a container, and then the same transform
-        // that we're going to apply to the "from" controller view will be applied to the
+        // All supplementary snapshots are added to a container, and then the same transform
+        // that we're going to apply to the "from" controller snapshot will be applied to the
         // supplementary container
         UIView *supplementaryContainer = [[UIView alloc] initWithFrame:containerView.bounds];
         supplementaryContainer.backgroundColor = [UIColor clearColor];
@@ -193,7 +195,7 @@
         colorView.backgroundColor = _backgroundColor;
         colorView.alpha = 1.0;
         
-        // The star of the show again (this time with the old snapshot API)
+        // The star of the show again, this time with the old snapshot API
         UIImageView *targetSnapshot = [[UIImageView alloc] initWithImage:[_targetView zo_snapshot]];
         targetSnapshot.frame = startFrame;
         
