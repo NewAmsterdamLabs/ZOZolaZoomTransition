@@ -188,6 +188,7 @@
         // old snapshot API
         UIImageView *toControllerSnapshot = [[UIImageView alloc] initWithImage:[toControllerView zo_snapshot]];
         
+        // Used to perform the fade, just like when presenting
         UIView *colorView = [[UIView alloc] initWithFrame:containerView.bounds];
         colorView.backgroundColor = _backgroundColor;
         colorView.alpha = 1.0;
@@ -224,6 +225,7 @@
         toControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
         toControllerSnapshot.frame = CGRectMake(startPoint.x, startPoint.y, toControllerSnapshot.frame.size.width, toControllerSnapshot.frame.size.height);
         
+        // Apply the same starting position and transform to the supplementary container
         supplementaryContainer.transform = toControllerSnapshot.transform;
         supplementaryContainer.frame = toControllerSnapshot.frame;
         supplementaryContainer.alpha = 0.0;
@@ -239,15 +241,19 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
+                             // Put the "to" snapshot back to it's original state
                              toControllerSnapshot.transform = CGAffineTransformIdentity;
                              toControllerSnapshot.frame = toControllerView.frame;
                              
+                             // Move and transform the supplementary container with the "to" snapshot
                              supplementaryContainer.transform = toControllerSnapshot.transform;
                              supplementaryContainer.frame = toControllerSnapshot.frame;
                              
+                             // Fade
                              colorView.alpha = 0.0;
                              supplementaryContainer.alpha = 1.0;
                              
+                             // Move the target snapshot into place
                              targetSnapshot.frame = finishFrame;
                          } completion:^(BOOL finished) {
                              // Add "to" controller view
