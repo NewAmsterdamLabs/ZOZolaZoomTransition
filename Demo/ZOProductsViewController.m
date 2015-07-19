@@ -56,6 +56,24 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
     [self.collectionView registerClass:[ZOProductCell class] forCellWithReuseIdentifier:ZOProductCellId];
 }
 
+#pragma mark - Helpers
+
+- (NSArray *)clippedCells {
+    // Here we're returning all UICollectionViewCells that are clipped by the edge
+    // of the screen. These will be used as "supplementary views" so that the clipped
+    // cells will be drawn in their entirety rather than appearing cut off during the
+    // transition animation.
+    
+    NSMutableArray *clippedCells = [NSMutableArray arrayWithCapacity:[[self.collectionView visibleCells] count]];
+    for (UICollectionViewCell *visibleCell in self.collectionView.visibleCells) {
+        CGRect convertedRect = [visibleCell convertRect:visibleCell.bounds toView:self.view];
+        if (!CGRectContainsRect(self.view.frame, convertedRect)) {
+            [clippedCells addObject:visibleCell];
+        }
+    }
+    return clippedCells;
+}
+
 #pragma mark - UICollectionViewDelegate & Data Source Methods
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -148,13 +166,12 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 }
 
 - (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition {
-    return nil;
+    return [self clippedCells];
 }
 
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
    frameForSupplementaryView:(UIView *)supplementaryView {
-    
-    return CGRectZero;
+    return [supplementaryView convertRect:supplementaryView.bounds toView:self.view];
 }
 
 @end

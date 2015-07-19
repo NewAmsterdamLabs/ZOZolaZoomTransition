@@ -15,7 +15,7 @@
  * view is already part of the hierarchy. We're defaulting to the newer
  * API whenever possible (especially since it's faster), but we're falling
  * back to this category whenever we need to screenshot a view that's
- * offscreen.
+ * offscreen. 
  *
  */
 - (UIImage *)zo_snapshot;
@@ -120,10 +120,29 @@
         UIView *targetSnapshot = [_targetView snapshotViewAfterScreenUpdates:NO];
         targetSnapshot.frame = startFrame;
         
+        // Check if the delegate provides any supplementary views
+        NSArray *supplementaryViews = nil;
+        if ([_delegate respondsToSelector:@selector(supplementaryViewsForZolaZoomTransition:)]) {
+            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView: and try again.");
+            supplementaryViews = [_delegate supplementaryViewsForZolaZoomTransition:self];
+        }
+
+        // All supplementary views are added to a container, and then the same transform
+        // that we're going to apply to the "from" controller view will be applied to the
+        // supplementary container
+        UIView *supplementaryContainer = [[UIView alloc] initWithFrame:containerView.bounds];
+        supplementaryContainer.backgroundColor = [UIColor clearColor];
+        for (UIView *supplementaryView in supplementaryViews) {
+            UIView *supplementarySnapshot = [supplementaryView snapshotViewAfterScreenUpdates:NO];
+            supplementarySnapshot.frame = [_delegate zolaZoomTransition:self frameForSupplementaryView:supplementaryView];
+            [supplementaryContainer addSubview:supplementarySnapshot];
+        }
+        
         // Assemble the hierarchy in the container
         [containerView addSubview:fromControllerSnapshot];
         [containerView addSubview:colorView];
         [containerView addSubview:targetSnapshot];
+        [containerView addSubview:supplementaryContainer];
         
         // Determine how much we need to scale
         CGFloat scaleFactor = finishFrame.size.width / startFrame.size.width;
@@ -136,10 +155,19 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
+                             // Move and transform the "from" snapshot
                              fromControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
                              fromControllerSnapshot.frame = CGRectMake(endPoint.x, endPoint.y, fromControllerSnapshot.frame.size.width, fromControllerSnapshot.frame.size.height);
                              
+                             // Move and transform the supplementary container with the "from" snapshot
+                             supplementaryContainer.transform = fromControllerSnapshot.transform;
+                             supplementaryContainer.frame = fromControllerSnapshot.frame;
+                             
+                             // Fade
                              colorView.alpha = 1.0;
+                             supplementaryContainer.alpha = 0.0;
+                             
+                             // Move our target snapshot into position
                              targetSnapshot.frame = finishFrame;
                          } completion:^(BOOL finished) {
                              // Add "to" controller view
@@ -168,6 +196,22 @@
         UIImageView *targetSnapshot = [[UIImageView alloc] initWithImage:[_targetView zo_snapshot]];
         targetSnapshot.frame = startFrame;
         
+        // Check if the delegate provides any supplementary views
+        NSArray *supplementaryViews = nil;
+        if ([_delegate respondsToSelector:@selector(supplementaryViewsForZolaZoomTransition:)]) {
+            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView: and try again.");
+            supplementaryViews = [_delegate supplementaryViewsForZolaZoomTransition:self];
+        }
+        
+        // Same as for presentation, except this time with the old snapshot API
+        UIView *supplementaryContainer = [[UIView alloc] initWithFrame:containerView.bounds];
+        supplementaryContainer.backgroundColor = [UIColor clearColor];
+        for (UIView *supplementaryView in supplementaryViews) {
+            UIImageView *supplementarySnapshot = [[UIImageView alloc] initWithImage:[supplementaryView zo_snapshot]];
+            supplementarySnapshot.frame = [_delegate zolaZoomTransition:self frameForSupplementaryView:supplementaryView];
+            [supplementaryContainer addSubview:supplementarySnapshot];
+        }
+        
         // We're switching the values such that the scale factor returns the same result
         // as when we were presenting
         CGFloat scaleFactor = startFrame.size.width / finishFrame.size.width;
@@ -180,10 +224,15 @@
         toControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
         toControllerSnapshot.frame = CGRectMake(startPoint.x, startPoint.y, toControllerSnapshot.frame.size.width, toControllerSnapshot.frame.size.height);
         
+        supplementaryContainer.transform = toControllerSnapshot.transform;
+        supplementaryContainer.frame = toControllerSnapshot.frame;
+        supplementaryContainer.alpha = 0.0;
+        
         // Assemble the view hierarchy in the container
         [containerView addSubview:toControllerSnapshot];
         [containerView addSubview:colorView];
         [containerView addSubview:targetSnapshot];
+        [containerView addSubview:supplementaryContainer];
         
         // Animate dismissal
         [UIView animateWithDuration:[self transitionDuration:transitionContext]
@@ -193,7 +242,12 @@
                              toControllerSnapshot.transform = CGAffineTransformIdentity;
                              toControllerSnapshot.frame = toControllerView.frame;
                              
+                             supplementaryContainer.transform = toControllerSnapshot.transform;
+                             supplementaryContainer.frame = toControllerSnapshot.frame;
+                             
                              colorView.alpha = 0.0;
+                             supplementaryContainer.alpha = 1.0;
+                             
                              targetSnapshot.frame = finishFrame;
                          } completion:^(BOOL finished) {
                              // Add "to" controller view
