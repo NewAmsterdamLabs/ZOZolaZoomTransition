@@ -63,15 +63,46 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 
 @end
 
+/**
+ The delegate of `ZoZolaZoomTransition` must adopt the `ZOZolaZoomTransitionDelegate` protocol.
+ Optional methods of the protocol allow the delegate to provide supplementary views to enhance
+ the transition.
+ */
 @protocol ZOZolaZoomTransitionDelegate <NSObject>
 
 @required
 
+/**
+ The starting frame for the target view. The coordinates for this frame must be returned relative
+ to the fromViewController's view. For example:
+ 
+ `return [targetView convertRect:targetView.bounds toView:fromViewController.view];`
+ 
+ @param zoomTransition The `ZOZolaZoomTransition` instance
+ @param targetView The target view
+ @param fromViewController The "from" view controller
+ @param toViewController The "to" view controller
+ 
+ @return The starting frame for the target view, relative to the fromViewController's view
+ */
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
         startingFrameForView:(UIView *)targetView
           fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController;
 
+/**
+ The finishing frame for the target view. The coordinates for this frame must be returned relative
+ to the toViewController's view. For example:
+ 
+ `return [targetView convertRect:targetView.bounds toView:toViewController.view];`
+ 
+ @param zoomTransition The `ZOZolaZoomTransition` instance
+ @param targetView The target view
+ @param fromViewController The "from" view controller
+ @param toViewController The "to" view controller
+ 
+ @return The finishing frame for the target view, relative to the toViewController's view
+ */
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
        finishingFrameForView:(UIView *)targetView
           fromViewController:(UIViewController *)fromViewComtroller
