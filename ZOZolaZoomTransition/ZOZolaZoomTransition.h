@@ -74,12 +74,14 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 
 /**
  The starting frame for the target view. This frame must be returned relative to the
- fromViewController's view. For example:
+ fromViewController's view. For convienence, this view is provided explicitly.
+ For example:
  
- `return [targetView convertRect:targetView.bounds toView:fromViewController.view];`
+ `return [targetView convertRect:targetView.bounds toView:relativeView];`
  
  @param zoomTransition The `ZOZolaZoomTransition` instance
  @param targetView The target view
+ @param relativeView The "from" view controller's view
  @param fromViewController The "from" view controller
  @param toViewController The "to" view controller
  
@@ -87,17 +89,21 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
  */
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
         startingFrameForView:(UIView *)targetView
+              relativeToView:(UIView *)relativeView
           fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController;
 
 /**
  The finishing frame for the target view. This frame must be returned relative to the
- toViewController's view. For example:
+ toViewController's view. For convienence, this view is provided explicitly.
+ For example, consider the scenario where the targetView is zooming to the frame of
+ some arbitrary destination view in the "to" view controller's view:
  
- `return [targetView convertRect:targetView.bounds toView:toViewController.view];`
+ `return [destinationView convertRect:destinationView.bounds toView:relativeView];`
  
  @param zoomTransition The `ZOZolaZoomTransition` instance
  @param targetView The target view
+ @param relativeView The "to" view controller's view
  @param fromViewController The "from" view controller
  @param toViewController The "to" view controller
  
@@ -105,6 +111,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
  */
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
        finishingFrameForView:(UIView *)targetView
+              relativeToView:(UIView *)relativeView
           fromViewController:(UIViewController *)fromViewComtroller
             toViewController:(UIViewController *)toViewController;
 
@@ -130,21 +137,20 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 
 /**
  The frame for a supplementary view. This frame must be returned relative to the originating
- view controller's view. For example:
+ view controller's view. The originating view controller is the "from" view controller during
+ presentation, and the "to" view controller during dismissal. For convienence, this view is
+ provided explicitly. For example:
  
- `return [supplementaryView convertRect:supplementaryView.bounds toView:originatingViewController.view];`
- 
- The originating view controller is the "from" view controller during presentation, and the
- "to" view controller during dismissal.
+ `return [supplementaryView convertRect:supplementaryView.bounds toView:relativeView];`
  
  @param zoomTransition The `ZOZolaZoomTransition` instance
  @param supplementaryView The supplementary view
- @param originatingViewController The originating view controller
+ @param relativeView The originating view controller's view
  
- @return The frame for the supplementary view, relative to the originatingViewController's view
+ @return The frame for the supplementary view, relative to the originating view controller's view
  */
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
    frameForSupplementaryView:(UIView *)supplementaryView
-   originatingViewController:(UIViewController *)originatingViewController;
+              relativeToView:(UIView *)relativeView;
 
 @end

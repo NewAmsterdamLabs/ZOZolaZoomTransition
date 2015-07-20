@@ -111,12 +111,14 @@
     // Ask the delegate for the target view's starting frame
     CGRect startFrame = [_delegate zolaZoomTransition:self
                                  startingFrameForView:_targetView
+                                       relativeToView:fromControllerView
                                    fromViewController:fromViewController
                                      toViewController:toViewController];
     
     // Ask the delegate for the target view's finishing frame
     CGRect finishFrame = [_delegate zolaZoomTransition:self
                                  finishingFrameForView:_targetView
+                                        relativeToView:toControllerView
                                     fromViewController:fromViewController
                                       toViewController:toViewController];
     
@@ -137,7 +139,7 @@
         // Check if the delegate provides any supplementary views
         NSArray *supplementaryViews = nil;
         if ([_delegate respondsToSelector:@selector(supplementaryViewsForZolaZoomTransition:)]) {
-            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:originatingViewController:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView:originatingViewController: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView:originatingViewController: and try again.");
+            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:relativeToView:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView:relativeToView: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView:relativeToView: and try again.");
             supplementaryViews = [_delegate supplementaryViewsForZolaZoomTransition:self];
         }
 
@@ -151,7 +153,7 @@
             
             supplementarySnapshot.frame = [_delegate zolaZoomTransition:self
                                               frameForSupplementaryView:supplementaryView
-                                              originatingViewController:fromViewController];
+                                                         relativeToView:fromControllerView];
             
             [supplementaryContainer addSubview:supplementarySnapshot];
         }
@@ -218,7 +220,7 @@
         // Check if the delegate provides any supplementary views
         NSArray *supplementaryViews = nil;
         if ([_delegate respondsToSelector:@selector(supplementaryViewsForZolaZoomTransition:)]) {
-            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:originatingViewController:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView:originatingViewController: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView:originatingViewController: and try again.");
+            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:relativeToView:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView:relativeToView: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView:relativeToView: and try again.");
             supplementaryViews = [_delegate supplementaryViewsForZolaZoomTransition:self];
         }
         
@@ -230,7 +232,7 @@
             
             supplementarySnapshot.frame = [_delegate zolaZoomTransition:self
                                               frameForSupplementaryView:supplementaryView
-                                              originatingViewController:toViewController];
+                                                         relativeToView:toControllerView];
             
             [supplementaryContainer addSubview:supplementarySnapshot];
         }
