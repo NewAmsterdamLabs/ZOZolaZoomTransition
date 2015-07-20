@@ -15,8 +15,8 @@ static CGFloat ZODescriptionLabelMargin = 14.0;
 
 @property (strong, nonatomic) ZOProduct *product;
 @property (strong, nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UILabel *descriptionLabel;
+@property (strong, nonatomic, readwrite) UIImageView *imageView;
 
 @end
 
@@ -58,12 +58,6 @@ static CGFloat ZODescriptionLabelMargin = 14.0;
     _descriptionLabel.frame = CGRectMake(ZODescriptionLabelMargin, _imageView.frame.origin.y + _imageView.frame.size.height + ZODescriptionLabelMargin, descriptionSize.width, descriptionSize.height);
     
     _scrollView.contentSize = CGSizeMake(_scrollView.frame.size.width, _descriptionLabel.frame.origin.y + _descriptionLabel.frame.size.height + ZODescriptionLabelMargin);
-}
-
-#pragma mark - Transition Helpers
-
-- (CGRect)imageViewFrame {
-    return [_imageView convertRect:_imageView.bounds toView:self.view];
 }
 
 @end

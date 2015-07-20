@@ -137,7 +137,7 @@
         // Check if the delegate provides any supplementary views
         NSArray *supplementaryViews = nil;
         if ([_delegate respondsToSelector:@selector(supplementaryViewsForZolaZoomTransition:)]) {
-            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView: and try again.");
+            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:originatingViewController:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView:originatingViewController: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView:originatingViewController: and try again.");
             supplementaryViews = [_delegate supplementaryViewsForZolaZoomTransition:self];
         }
 
@@ -148,7 +148,11 @@
         supplementaryContainer.backgroundColor = [UIColor clearColor];
         for (UIView *supplementaryView in supplementaryViews) {
             UIView *supplementarySnapshot = [supplementaryView snapshotViewAfterScreenUpdates:NO];
-            supplementarySnapshot.frame = [_delegate zolaZoomTransition:self frameForSupplementaryView:supplementaryView];
+            
+            supplementarySnapshot.frame = [_delegate zolaZoomTransition:self
+                                              frameForSupplementaryView:supplementaryView
+                                              originatingViewController:fromViewController];
+            
             [supplementaryContainer addSubview:supplementarySnapshot];
         }
         
@@ -214,7 +218,7 @@
         // Check if the delegate provides any supplementary views
         NSArray *supplementaryViews = nil;
         if ([_delegate respondsToSelector:@selector(supplementaryViewsForZolaZoomTransition:)]) {
-            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView: and try again.");
+            NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:originatingViewController:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView:originatingViewController: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView:originatingViewController: and try again.");
             supplementaryViews = [_delegate supplementaryViewsForZolaZoomTransition:self];
         }
         
@@ -223,7 +227,11 @@
         supplementaryContainer.backgroundColor = [UIColor clearColor];
         for (UIView *supplementaryView in supplementaryViews) {
             UIImageView *supplementarySnapshot = [[UIImageView alloc] initWithImage:[supplementaryView zo_snapshot]];
-            supplementarySnapshot.frame = [_delegate zolaZoomTransition:self frameForSupplementaryView:supplementaryView];
+            
+            supplementarySnapshot.frame = [_delegate zolaZoomTransition:self
+                                              frameForSupplementaryView:supplementaryView
+                                              originatingViewController:toViewController];
+            
             [supplementaryContainer addSubview:supplementarySnapshot];
         }
         

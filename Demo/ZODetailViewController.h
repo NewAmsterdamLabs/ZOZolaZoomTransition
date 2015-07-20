@@ -12,8 +12,8 @@
 
 @interface ZODetailViewController : UIViewController
 
-- (instancetype)initWithProduct:(ZOProduct *)product;
+@property (strong, nonatomic, readonly) UIImageView *imageView;
 
-- (CGRect)imageViewFrame;
+- (instancetype)initWithProduct:(ZOProduct *)product;
 
 @end

@@ -127,10 +127,13 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
     ZOTransitionType type = (fromVC == self) ? ZOTransitionTypePresenting : ZOTransitionTypeDismissing;
     
     // Create the transition
-    return [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
-                                               type:type
-                                           duration:0.65
-                                           delegate:self];
+    ZOZolaZoomTransition *zoomTransition = [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
+                                                                               type:type
+                                                                           duration:0.6
+                                                                           delegate:self];
+    zoomTransition.backgroundColor = self.collectionView.backgroundColor;
+    
+    return zoomTransition;
 }
 
 #pragma mark - ZOZolaZoomTransitionDelegate Methods
@@ -141,10 +144,10 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
             toViewController:(UIViewController *)toViewController {
     
     if (fromViewController == self) {
-        return [targetView convertRect:targetView.bounds toView:self.view];
+        return [targetView convertRect:targetView.bounds toView:fromViewController.view];
     } else if ([fromViewController isKindOfClass:[ZODetailViewController class]]) {
         ZODetailViewController *detailController = (ZODetailViewController *)fromViewController;
-        return [detailController imageViewFrame];
+        return [detailController.imageView convertRect:detailController.imageView.bounds toView:fromViewController.view];
     }
 
     return CGRectZero;
@@ -156,10 +159,10 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
             toViewController:(UIViewController *)toViewController {
     
     if (toViewController == self) {
-        return [targetView convertRect:targetView.bounds toView:self.view];
+        return [targetView convertRect:targetView.bounds toView:toViewController.view];
     } else if ([toViewController isKindOfClass:[ZODetailViewController class]]) {
         ZODetailViewController *detailController = (ZODetailViewController *)toViewController;
-        return [detailController imageViewFrame];
+        return [detailController.imageView convertRect:detailController.imageView.bounds toView:toViewController.view];
     }
     
     return CGRectZero;
@@ -170,7 +173,9 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 }
 
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-   frameForSupplementaryView:(UIView *)supplementaryView {
+   frameForSupplementaryView:(UIView *)supplementaryView
+   originatingViewController:(UIViewController *)originatingViewController {
+    
     return [supplementaryView convertRect:supplementaryView.bounds toView:self.view];
 }
 

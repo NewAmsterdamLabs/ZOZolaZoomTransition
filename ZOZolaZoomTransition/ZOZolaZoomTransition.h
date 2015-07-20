@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 @interface ZOZolaZoomTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
 /**
- Initializes a `ZOZolaZoomTransition` object with a target view.
+ Initializes a `ZOZolaZoomTransition` instance with a target view.
  
  This is the designated initializer.
  
@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
 /**
- Convienence initializer for some syntactical sugar.
+ Convienence initializer for syntactical sugar.
  
  @param targetView The view to be zoomed
  @param type The animation type, presenting or dismissing
@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 @end
 
 /**
- The delegate of `ZoZolaZoomTransition` must adopt the `ZOZolaZoomTransitionDelegate` protocol.
+ The delegate of `ZOZolaZoomTransition` must adopt the `ZOZolaZoomTransitionDelegate` protocol.
  Optional methods of the protocol allow the delegate to provide supplementary views to enhance
  the transition.
  */
@@ -73,8 +73,8 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 @required
 
 /**
- The starting frame for the target view. The coordinates for this frame must be returned relative
- to the fromViewController's view. For example:
+ The starting frame for the target view. This frame must be returned relative to the
+ fromViewController's view. For example:
  
  `return [targetView convertRect:targetView.bounds toView:fromViewController.view];`
  
@@ -91,8 +91,8 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
             toViewController:(UIViewController *)toViewController;
 
 /**
- The finishing frame for the target view. The coordinates for this frame must be returned relative
- to the toViewController's view. For example:
+ The finishing frame for the target view. This frame must be returned relative to the
+ toViewController's view. For example:
  
  `return [targetView convertRect:targetView.bounds toView:toViewController.view];`
  
@@ -110,9 +110,41 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 
 @optional
 
+/**
+ `ZOZolaZoomTransition` supports an optional array of supplementary views that will be drawn
+ on top of, and animated with, the other views in the animation. Two common use cases for 
+ supplementary views are:
+ 
+ 1. To draw views that are on top of, but not a child of, the target view.
+ 2. To draw views that are clipped by the edge of the screen when the transition begins
+    and therefore appear cut off during the animation.
+ 
+ @warning If `supplementaryViewsForZolaZoomTransition:` is implemented,
+ `zolaZoomTransition:frameForSupplementaryView:` must be implemented as well.
+ 
+ @param zoomTransition The `ZOZolaZoomTransition` instance
+ 
+ @return The array of supplementary views
+ */
 - (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition;
 
+/**
+ The frame for a supplementary view. This frame must be returned relative to the originating
+ view controller's view. For example:
+ 
+ `return [supplementaryView convertRect:supplementaryView.bounds toView:originatingViewController.view];`
+ 
+ The originating view controller is the "from" view controller during presentation, and the
+ "to" view controller during dismissal.
+ 
+ @param zoomTransition The `ZOZolaZoomTransition` instance
+ @param supplementaryView The supplementary view
+ @param originatingViewController The originating view controller
+ 
+ @return The frame for the supplementary view, relative to the originatingViewController's view
+ */
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
-   frameForSupplementaryView:(UIView *)supplementaryView;
+   frameForSupplementaryView:(UIView *)supplementaryView
+   originatingViewController:(UIViewController *)originatingViewController;
 
 @end
