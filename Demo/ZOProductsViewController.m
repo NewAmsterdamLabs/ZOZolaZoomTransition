@@ -183,6 +183,8 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 
 @end
 
+#pragma mark - ZOProductCell Implementation
+
 @interface ZOProductCell ()
 
 @property (strong, nonatomic, readwrite) UIImageView *imageView;
@@ -203,7 +205,7 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
         _imageView.backgroundColor = [UIColor lightGrayColor];
         [self.contentView addSubview:_imageView];
         
-        self.titleLabel = [[UILabel alloc] init];
+        self.tgitleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont systemFontOfSize:13.0];
         _titleLabel.numberOfLines = 2;
         [self.contentView addSubview:_titleLabel];
