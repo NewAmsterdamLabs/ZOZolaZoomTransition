@@ -105,7 +105,6 @@
     // animation is in progress
     UIView *backgroundView = [[UIView alloc] initWithFrame:containerView.bounds];
     backgroundView.backgroundColor = _backgroundColor;
-    backgroundView.alpha = 1.0;
     [containerView addSubview:backgroundView];
     
     // Ask the delegate for the target view's starting frame

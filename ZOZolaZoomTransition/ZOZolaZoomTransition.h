@@ -97,7 +97,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
  The finishing frame for the target view. This frame must be returned relative to the
  toViewController's view. For convienence, this view is provided explicitly.
  For example, consider the scenario where the targetView is zooming to the frame of
- some arbitrary destination view in the "to" view controller's view:
+ some arbitrary destinationView in the "to" view controller's view:
  
  `return [destinationView convertRect:destinationView.bounds toView:relativeView];`
  
