@@ -88,7 +88,8 @@ This is best illustrated with an example. The row of cells below is cropped by t
 <img src="Demo/Images/without_supplementary_views.jpg") alt="Without supplementary views"/>
 </p>
 
-**With supplementary views:** (the "Group Gift" banner and the two cells to the right)
+**With supplementary views:** 
+(the "Group Gift" banner and the two cells to the right have been added as supplementary views and are therefore drawn on top of the animation)
 
 <p align="left">
 <img src="Demo/Images/with_supplementary_views.jpg") alt="With supplementary views"/>
