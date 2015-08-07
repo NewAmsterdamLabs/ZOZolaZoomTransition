@@ -94,6 +94,17 @@ This is best illustrated with an example. The row of cells below is cropped by t
 <img src="Demo/Images/with_supplementary_views.jpg") alt="With supplementary views"/>
 </p>
 
+Setup Instructions
+------------------
+Install with [CocoaPods](http://cocoapods.org) by adding the following to your Podfile:
+
+``` ruby
+platform :ios, '7.0'
+pod 'ZOZolaZoomTransition', '~> 1.0.0'
+```
+
+Or add manually by adding `ZOZolaZoomTransition.h` & `ZOZolaZoomTransition.m` to your project.
+
 ## Limitations
 
 1. `ZOZolaZoomTransition` currently only works with `UINavigationController` transitions. We still need to add support for modal transitions, ideally without changing the API. Pull requests welcome!
