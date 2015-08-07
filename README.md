@@ -8,24 +8,26 @@
 
 ## Example
 
-`ZOZolaZoomTransition` ships with a fully functional demo project. Here's the basic idea:
+`ZOZolaZoomTransition` ships with a fully functional demo project, but below are the basic implementation steps. Assume a typical "Master-Detail" scenario where the "master" controller contains a collection view, and the "detail" controller displays addional information when a cell is selected:
 
 1. Implement the `UINavigationControllerDelegate` method:
 
 ```objective-c
-- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                   animationControllerForOperation:(UINavigationControllerOperation)operation
-                                                fromViewController:(UIViewController *)fromVC
+- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController     
+                                   animationControllerForOperation:(UINavigationControllerOperation)operation 
+                                                fromViewController:(UIViewController *)fromVC 
                                                   toViewController:(UIViewController *)toVC {
     
-    // Are we presenting or dismissing?
+    // Determine if we're presenting or dismissing
     ZOTransitionType type = (fromVC == self) ? ZOTransitionTypePresenting : ZOTransitionTypeDismissing;
     
-    // Create a transition instance with a target view (in this case a collection view cell's imageView)
-    return [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
-                                               type:type
-                                           duration:0.6
-                                           delegate:self];
+    // Create a transition instance with the selected cell's imageView as the target view
+    ZOZolaZoomTransition *zoomTransition = [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
+                                                                               type:type
+                                                                           duration:0.5
+                                                                           delegate:self];
+    
+    return zoomTransition;
 }
 ```
 
@@ -39,8 +41,10 @@
             toViewController:(UIViewController *)toViewController {
     
     if (fromViewController == self) {
-        return [targetView convertRect:targetView.bounds toView:relativeView];
+        // We're pushing to the detail controller. The starting frame is taken from the selected cell's imageView.
+        return [_selectedCell.imageView convertRect:_selectedCell.imageView.bounds toView:relativeView];
     } else if ([fromViewController isKindOfClass:[ZODetailViewController class]]) {
+        // We're popping back to this master controller. The starting frame is taken from the detailController's imageView.
         ZODetailViewController *detailController = (ZODetailViewController *)fromViewController;
         return [detailController.imageView convertRect:detailController.imageView.bounds toView:relativeView];
     }
@@ -54,11 +58,13 @@
           fromViewController:(UIViewController *)fromViewComtroller
             toViewController:(UIViewController *)toViewController {
     
-    if (toViewController == self) {
-        return [targetView convertRect:targetView.bounds toView:relativeView];
-    } else if ([toViewController isKindOfClass:[ZODetailViewController class]]) {
+    if (fromViewComtroller == self) {
+        // We're pushing to the detail controller. The finishing frame is taken from the detailController's imageView.
         ZODetailViewController *detailController = (ZODetailViewController *)toViewController;
         return [detailController.imageView convertRect:detailController.imageView.bounds toView:relativeView];
+    } else if ([fromViewComtroller isKindOfClass:[ZODetailViewController class]]) {
+        // We're popping back to this master controller. The finishing frame is taken from the selected cell's imageView.
+        return [_selectedCell.imageView convertRect:_selectedCell.imageView.bounds toView:relativeView];
     }
     
     return CGRectZero;

@@ -124,7 +124,7 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
     // Determine if we're presenting or dismissing
     ZOTransitionType type = (fromVC == self) ? ZOTransitionTypePresenting : ZOTransitionTypeDismissing;
     
-    // Create the transition
+    // Create a transition instance with the selected cell's imageView as the target view
     ZOZolaZoomTransition *zoomTransition = [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
                                                                                type:type
                                                                            duration:0.5
@@ -143,8 +143,10 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
             toViewController:(UIViewController *)toViewController {
     
     if (fromViewController == self) {
-        return [targetView convertRect:targetView.bounds toView:relativeView];
+        // We're pushing to the detail controller. The starting frame is taken from the selected cell's imageView.
+        return [_selectedCell.imageView convertRect:_selectedCell.imageView.bounds toView:relativeView];
     } else if ([fromViewController isKindOfClass:[ZODetailViewController class]]) {
+        // We're popping back to this master controller. The starting frame is taken from the detailController's imageView.
         ZODetailViewController *detailController = (ZODetailViewController *)fromViewController;
         return [detailController.imageView convertRect:detailController.imageView.bounds toView:relativeView];
     }
@@ -158,11 +160,13 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
           fromViewController:(UIViewController *)fromViewComtroller
             toViewController:(UIViewController *)toViewController {
     
-    if (toViewController == self) {
-        return [targetView convertRect:targetView.bounds toView:relativeView];
-    } else if ([toViewController isKindOfClass:[ZODetailViewController class]]) {
+    if (fromViewComtroller == self) {
+        // We're pushing to the detail controller. The finishing frame is taken from the detailController's imageView.
         ZODetailViewController *detailController = (ZODetailViewController *)toViewController;
         return [detailController.imageView convertRect:detailController.imageView.bounds toView:relativeView];
+    } else if ([fromViewComtroller isKindOfClass:[ZODetailViewController class]]) {
+        // We're popping back to this master controller. The finishing frame is taken from the selected cell's imageView.
+        return [_selectedCell.imageView convertRect:_selectedCell.imageView.bounds toView:relativeView];
     }
     
     return CGRectZero;
