@@ -8,7 +8,7 @@
 
 ## Example
 
-`ZOZolaZoomTransition` ships with a fully functional demo project, but below are the basic implementation steps. Assume a typical "Master-Detail" scenario where the "master" controller contains a collection view, and the "detail" controller displays addional information when a cell is selected:
+`ZOZolaZoomTransition` ships with a fully functional demo project. Listed below are the basic implementation steps. Assume a typical "Master-Detail" scenario where the "master" controller contains a `UICollectionView`, and the "detail" controller is pushed onto the stack when a cell is tapped. The transition will be animated from the selected cell's `imageView`, to the detailController's `imageView`: 
 
 1. Implement the `UINavigationControllerDelegate` method:
 
