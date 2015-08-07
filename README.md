@@ -87,9 +87,9 @@ TK
 With supplementary views:
 TK
 
-## Limitations
+## To Do
 
-TBD
+1. `ZOZolaZoomTransition` currently only works with `UINavigationController` transitions. We still need to add support for modal transitions, ideally without changing the API. 
 
 ## Requirements
 
