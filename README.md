@@ -2,6 +2,7 @@
 
 `ZOZolaZoomTransition` is an animated transition used extensively in the Zola iOS application. In addition to zooming a target view, it also animates the entire heirarchy in which the target view is a part of, resulting in a fluid "z-level" animation effect.
 
+It looks like this:
 <p align="left">
 <img src="Demo/Images/demo.gif") alt="Zola for iPad"/>
 </p>
@@ -31,7 +32,7 @@
 }
 ```
 
- 2. Implement the two required `ZOZolaZoomTransitionDelegate` methods to provide the starting and finishing frames for the target view (see `ZOZolaZolaZoomTransition.h` for detailed documentation):
+2. Implement the two required `ZOZolaZoomTransitionDelegate` methods to provide the starting and finishing frames for the target view (see `ZOZolaZolaZoomTransition.h` for detailed documentation):
 
 ```objective-c
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
@@ -103,11 +104,11 @@ platform :ios, '7.0'
 pod 'ZOZolaZoomTransition', '~> 1.0.0'
 ```
 
-Or add manually by adding `ZOZolaZoomTransition.h` & `ZOZolaZoomTransition.m` to your project.
+Or do it manually by adding `ZOZolaZoomTransition.h` & `ZOZolaZoomTransition.m` to your project.
 
 ## Limitations
 
-1. `ZOZolaZoomTransition` currently only works with `UINavigationController` transitions. We still need to add support for modal transitions, ideally without changing the API. Pull requests welcome!
+- `ZOZolaZoomTransition` currently only works with `UINavigationController` transitions. We still need to add support for modal transitions, ideally without changing the API. Pull requests welcome!
 
 ## Requirements
 
