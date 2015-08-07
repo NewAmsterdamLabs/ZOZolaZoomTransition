@@ -80,15 +80,15 @@
  2. To draw views that are clipped by the edge of the screen when the transition begins
     and therefore appear cut off during the animation.
 
-This is best illustrated with an example:
+This is best illustrated with an example. The row of cells below is cropped by the bottom of the screen when the user taps the left most cell. Here are two screenshots mid-transition:
 
-Without supplementary views:
+**Without supplementary views:**
 
 <p align="left">
 <img src="Demo/Images/without_supplementary_views.jpg") alt="Without supplementary views"/>
 </p>
 
-With supplementary views:
+**With supplementary views:** (the "Group Gift" banner and the two cells to the right)
 
 <p align="left">
 <img src="Demo/Images/with_supplementary_views.jpg") alt="With supplementary views"/>
