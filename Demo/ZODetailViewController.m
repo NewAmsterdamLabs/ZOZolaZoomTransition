@@ -1,6 +1,7 @@
 //
 //  ZODetailViewController.m
 //  Copyright (c) 2015 Zola, Inc.
+//
 //  Created by Charles Scalesse
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a
