@@ -100,7 +100,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
  fromViewController's view. For convienence, this view is provided explicitly.
  For example:
  
- `return [targetView convertRect:targetView.bounds toView:relativeView];`
+ `return [startingView convertRect:startingView.bounds toView:relativeView];`
  
  @param zoomTransition The `ZOZolaZoomTransition` instance
  @param targetView The target view

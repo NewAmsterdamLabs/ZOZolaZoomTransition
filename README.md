@@ -73,7 +73,19 @@
 
 ## Supplementary Views
 
-TBD
+`ZOZolaZoomTransition` supports an optional array of supplementary views that will be drawn on top of, and animated with, the other views in the animation. Two common use cases for  supplementary views are:
+ 
+ 1. To draw views that are on top of, but not a child of, the target view.
+ 2. To draw views that are clipped by the edge of the screen when the transition begins
+    and therefore appear cut off during the animation.
+
+This is best illustrated with an example:
+
+Without supplementary views:
+TK
+
+With supplementary views:
+TK
 
 ## Limitations
 
