@@ -31,6 +31,7 @@
 }
 ```
 
+
 2. Implement the two required `ZOZolaZoomTransitionDelegate` methods to provide the starting and finishing frames for the target view (see `ZOZolaZolaZoomTransition.h` for detailed documentation):
 
 ```objective-c
@@ -87,7 +88,7 @@ TK
 With supplementary views:
 TK
 
-## To Do
+## Limitations
 
 1. `ZOZolaZoomTransition` currently only works with `UINavigationController` transitions. We still need to add support for modal transitions, ideally without changing the API. 
 
