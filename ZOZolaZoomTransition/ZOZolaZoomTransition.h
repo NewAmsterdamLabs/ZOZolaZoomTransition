@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
  `ZOZolaZoomTransition` is an animated transition used extensively in the Zola iOS application.
  In addition to zooming a target view, it also animates the entire heirarchy in which the target
  view is a part of, resulting in a unique "z-level" animation effect. `ZOZolaZoomTransition`
- conforms to `UIViewControllerAnimatedTransitioning` and is intended be used with navigation
+ conforms to `UIViewControllerAnimatedTransitioning` and is intended to be used with navigation
  controller transitions.
  */
 @interface ZOZolaZoomTransition : NSObject <UIViewControllerAnimatedTransitioning>
@@ -55,6 +55,12 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
                               type:(ZOTransitionType)type
                           duration:(NSTimeInterval)duration
                           delegate:(id<ZOZolaZoomTransitionDelegate>)delegate;
+
+/**
+ @warning Only the designated initializer or the convienece initializer
+ should be used to create a new `ZOZolaZoomTransition` instance
+ */
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  The "fade-through" color used during the animation. Default is `[UIColor whiteColor]`.
@@ -97,7 +103,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
  The finishing frame for the target view. This frame must be returned relative to the
  toViewController's view. For convienence, this view is provided explicitly.
  For example, consider the scenario where the targetView is zooming to the frame of
- some arbitrary destinationView in the "to" view controller's view:
+ some arbitrary destination view in the "to" view controller's view:
  
  `return [destinationView convertRect:destinationView.bounds toView:relativeView];`
  

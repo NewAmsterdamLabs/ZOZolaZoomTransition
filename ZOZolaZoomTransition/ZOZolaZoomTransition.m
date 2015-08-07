@@ -77,6 +77,10 @@
                                            delegate:delegate];
 }
 
+- (instancetype)init NS_UNAVAILABLE {
+    return nil;
+}
+
 #pragma mark - UIViewControllerAnimatedTransitioning Methods
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {

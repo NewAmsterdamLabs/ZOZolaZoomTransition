@@ -3,7 +3,7 @@
 `ZOZolaZoomTransition` is an animated transition used extensively in the Zola iOS application. In addition to zooming a target view, it also animates the entire heirarchy in which the target view is a part of, resulting in a unique "z-level" animation effect.
 
 <p align="left">
-<img src="demo_1.gif") alt="ZOZolaZoomTransition Demo"/>
+<img src="Demo/demo_1.gif") alt="ZOZolaZoomTransition Demo"/>
 </p>
 
 ## Example
