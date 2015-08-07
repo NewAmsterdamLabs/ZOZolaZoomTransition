@@ -111,9 +111,9 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
     // Create the transition
     ZOZolaZoomTransition *zoomTransition = [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
                                                                                type:type
-                                                                           duration:0.6
+                                                                           duration:0.5
                                                                            delegate:self];
-    zoomTransition.backgroundColor = self.collectionView.backgroundColor;
+    zoomTransition.fadeColor = self.collectionView.backgroundColor;
     
     return zoomTransition;
 }

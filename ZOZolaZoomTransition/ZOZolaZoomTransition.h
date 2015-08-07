@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 /**
  The "fade-through" color used during the animation. Default is `[UIColor whiteColor]`.
  */
-@property (strong, nonatomic) UIColor *backgroundColor;
+@property (strong, nonatomic) UIColor *fadeColor;
 
 @end
 

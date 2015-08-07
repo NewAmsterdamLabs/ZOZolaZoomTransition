@@ -61,7 +61,7 @@
         self.type = type;
         self.duration = duration;
         self.delegate = delegate;
-        self.backgroundColor = [UIColor whiteColor];
+        self.fadeColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -108,7 +108,7 @@
     // Setup a background view to prevent content from peeking through while our
     // animation is in progress
     UIView *backgroundView = [[UIView alloc] initWithFrame:containerView.bounds];
-    backgroundView.backgroundColor = _backgroundColor;
+    backgroundView.backgroundColor = _fadeColor;
     [containerView addSubview:backgroundView];
     
     // Ask the delegate for the target view's starting frame
@@ -129,11 +129,11 @@
         // The "from" snapshot
         UIView *fromControllerSnapshot = [fromControllerView snapshotViewAfterScreenUpdates:NO];
         
-        // The color view will sit between the "from" snapshot and the target snapshot.
+        // The fade view will sit between the "from" snapshot and the target snapshot.
         // This is what is used to create the fade effect.
-        UIView *colorView = [[UIView alloc] initWithFrame:containerView.bounds];
-        colorView.backgroundColor = _backgroundColor;
-        colorView.alpha = 0.0;
+        UIView *fadeView = [[UIView alloc] initWithFrame:containerView.bounds];
+        fadeView.backgroundColor = _fadeColor;
+        fadeView.alpha = 0.0;
         
         // The star of the show
         UIView *targetSnapshot = [_targetView snapshotViewAfterScreenUpdates:NO];
@@ -163,7 +163,7 @@
         
         // Assemble the hierarchy in the container
         [containerView addSubview:fromControllerSnapshot];
-        [containerView addSubview:colorView];
+        [containerView addSubview:fadeView];
         [containerView addSubview:targetSnapshot];
         [containerView addSubview:supplementaryContainer];
         
@@ -187,7 +187,7 @@
                              supplementaryContainer.frame = fromControllerSnapshot.frame;
                              
                              // Fade
-                             colorView.alpha = 1.0;
+                             fadeView.alpha = 1.0;
                              supplementaryContainer.alpha = 0.0;
                              
                              // Move our target snapshot into position
@@ -199,7 +199,7 @@
                              // Cleanup our animation views
                              [backgroundView removeFromSuperview];
                              [fromControllerSnapshot removeFromSuperview];
-                             [colorView removeFromSuperview];
+                             [fadeView removeFromSuperview];
                              [targetSnapshot removeFromSuperview];
                              
                              [[UIApplication sharedApplication] endIgnoringInteractionEvents];
@@ -212,9 +212,9 @@
         UIImageView *toControllerSnapshot = [[UIImageView alloc] initWithImage:[toControllerView zo_snapshot]];
         
         // Used to perform the fade, just like when presenting
-        UIView *colorView = [[UIView alloc] initWithFrame:containerView.bounds];
-        colorView.backgroundColor = _backgroundColor;
-        colorView.alpha = 1.0;
+        UIView *fadeView = [[UIView alloc] initWithFrame:containerView.bounds];
+        fadeView.backgroundColor = _fadeColor;
+        fadeView.alpha = 1.0;
         
         // The star of the show again, this time with the old snapshot API
         UIImageView *targetSnapshot = [[UIImageView alloc] initWithImage:[_targetView zo_snapshot]];
@@ -259,7 +259,7 @@
         
         // Assemble the view hierarchy in the container
         [containerView addSubview:toControllerSnapshot];
-        [containerView addSubview:colorView];
+        [containerView addSubview:fadeView];
         [containerView addSubview:targetSnapshot];
         [containerView addSubview:supplementaryContainer];
         
@@ -277,7 +277,7 @@
                              supplementaryContainer.frame = toControllerSnapshot.frame;
                              
                              // Fade
-                             colorView.alpha = 0.0;
+                             fadeView.alpha = 0.0;
                              supplementaryContainer.alpha = 1.0;
                              
                              // Move the target snapshot into place
@@ -289,7 +289,7 @@
                              // Cleanup our animation views
                              [backgroundView removeFromSuperview];
                              [toControllerSnapshot removeFromSuperview];
-                             [colorView removeFromSuperview];
+                             [fadeView removeFromSuperview];
                              [targetSnapshot removeFromSuperview];
                              
                              [[UIApplication sharedApplication] endIgnoringInteractionEvents];
