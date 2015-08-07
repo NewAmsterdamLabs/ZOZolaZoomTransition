@@ -10,7 +10,7 @@
 		155EB0BE1B508F21001AC03F /* ZODetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155EB0BD1B508F21001AC03F /* ZODetailViewController.m */; };
 		159D1F341B50882400B6E502 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 159D1F331B50882400B6E502 /* main.m */; };
 		159D1F371B50882400B6E502 /* ZOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 159D1F361B50882400B6E502 /* ZOAppDelegate.m */; };
-		159D1F3A1B50882400B6E502 /* ZOProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 159D1F391B50882400B6E502 /* ZOProductsViewController.m */; };
+		159D1F3A1B50882400B6E502 /* ZOMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 159D1F391B50882400B6E502 /* ZOMasterViewController.m */; };
 		159D1F3F1B50882400B6E502 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 159D1F3E1B50882400B6E502 /* Images.xcassets */; };
 		15E90B721B509A7700DC6A61 /* ZOProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E90B711B509A7700DC6A61 /* ZOProduct.m */; };
 		15E90B751B509BCC00DC6A61 /* ZOZolaZoomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E90B741B509BCC00DC6A61 /* ZOZolaZoomTransition.m */; };
@@ -24,8 +24,8 @@
 		159D1F331B50882400B6E502 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../Demo/main.m; sourceTree = "<group>"; };
 		159D1F351B50882400B6E502 /* ZOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZOAppDelegate.h; path = ../Demo/ZOAppDelegate.h; sourceTree = "<group>"; };
 		159D1F361B50882400B6E502 /* ZOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZOAppDelegate.m; path = ../Demo/ZOAppDelegate.m; sourceTree = "<group>"; };
-		159D1F381B50882400B6E502 /* ZOProductsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZOProductsViewController.h; path = ../Demo/ZOProductsViewController.h; sourceTree = "<group>"; };
-		159D1F391B50882400B6E502 /* ZOProductsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZOProductsViewController.m; path = ../Demo/ZOProductsViewController.m; sourceTree = "<group>"; };
+		159D1F381B50882400B6E502 /* ZOMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZOMasterViewController.h; path = ../Demo/ZOMasterViewController.h; sourceTree = "<group>"; };
+		159D1F391B50882400B6E502 /* ZOMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZOMasterViewController.m; path = ../Demo/ZOMasterViewController.m; sourceTree = "<group>"; };
 		159D1F3E1B50882400B6E502 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Demo/Images.xcassets; sourceTree = "<group>"; };
 		15E90B701B509A7700DC6A61 /* ZOProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZOProduct.h; path = Demo/ZOProduct.h; sourceTree = SOURCE_ROOT; };
 		15E90B711B509A7700DC6A61 /* ZOProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZOProduct.m; path = Demo/ZOProduct.m; sourceTree = SOURCE_ROOT; };
@@ -84,8 +84,8 @@
 			children = (
 				159D1F351B50882400B6E502 /* ZOAppDelegate.h */,
 				159D1F361B50882400B6E502 /* ZOAppDelegate.m */,
-				159D1F381B50882400B6E502 /* ZOProductsViewController.h */,
-				159D1F391B50882400B6E502 /* ZOProductsViewController.m */,
+				159D1F381B50882400B6E502 /* ZOMasterViewController.h */,
+				159D1F391B50882400B6E502 /* ZOMasterViewController.m */,
 				155EB0BC1B508F21001AC03F /* ZODetailViewController.h */,
 				155EB0BD1B508F21001AC03F /* ZODetailViewController.m */,
 				15E90B701B509A7700DC6A61 /* ZOProduct.h */,
@@ -173,7 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				159D1F3A1B50882400B6E502 /* ZOProductsViewController.m in Sources */,
+				159D1F3A1B50882400B6E502 /* ZOMasterViewController.m in Sources */,
 				159D1F371B50882400B6E502 /* ZOAppDelegate.m in Sources */,
 				15E90B751B509BCC00DC6A61 /* ZOZolaZoomTransition.m in Sources */,
 				155EB0BE1B508F21001AC03F /* ZODetailViewController.m in Sources */,

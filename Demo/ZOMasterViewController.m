@@ -1,5 +1,5 @@
 //
-//  ZOProductsViewController.m
+//  ZOMasterViewController.m
 //  Copyright (c) 2015 Zola, Inc.
 //
 //  Created by Charles Scalesse
@@ -23,7 +23,7 @@
 //  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "ZOProductsViewController.h"
+#import "ZOMasterViewController.h"
 #import "ZODetailViewController.h"
 #import "ZOProduct.h"
 
@@ -32,14 +32,14 @@ static CGFloat ZOProductCellMargin          = 10.0;
 static CGFloat ZOProductCellSpacing         = 10.0;
 static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 
-@interface ZOProductsViewController ()
+@interface ZOMasterViewController ()
 
 @property (strong, nonatomic) NSArray *products;
 @property (strong, nonatomic) ZOProductCell *selectedCell;
 
 @end
 
-@implementation ZOProductsViewController
+@implementation ZOMasterViewController
 
 #pragma mark - Constructors
 

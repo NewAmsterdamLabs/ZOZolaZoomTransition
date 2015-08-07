@@ -1,5 +1,5 @@
 //
-//  ZOProductsViewController.h
+//  ZOMasterViewController.h
 //  Copyright (c) 2015 Zola, Inc.
 //
 //  Created by Charles Scalesse
@@ -26,7 +26,7 @@
 #import <UIKit/UIKit.h>
 #import "ZOZolaZoomTransition.h"
 
-@interface ZOProductsViewController : UICollectionViewController <ZOZolaZoomTransitionDelegate, UINavigationControllerDelegate>
+@interface ZOMasterViewController : UICollectionViewController <ZOZolaZoomTransitionDelegate, UINavigationControllerDelegate>
 
 @end
 

@@ -24,7 +24,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "ZOAppDelegate.h"
-#import "ZOProductsViewController.h"
+#import "ZOMasterViewController.h"
 
 @interface ZOAppDelegate ()
 
@@ -33,7 +33,7 @@
 @implementation ZOAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    ZOProductsViewController *productsController = [[ZOProductsViewController alloc] init];
+    ZOMasterViewController *productsController = [[ZOMasterViewController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:productsController];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
