@@ -1,12 +1,14 @@
 # ZOZolaZoomTransition
 
-`ZOZolaZoomTransition` is an animated transition used extensively in the Zola iOS application. In addition to zooming a target view, it also animates the entire heirarchy in which the target view is a part of, resulting in a unique "z-level" animation effect.
+`ZOZolaZoomTransition` is an animated transition used extensively in the Zola iOS application. In addition to zooming a target view, it also animates the entire heirarchy in which the target view is a part of, resulting in a fluid "z-level" animation effect.
 
 <p align="left">
 <img src="Demo/demo_1.gif") alt="ZOZolaZoomTransition Demo"/>
 </p>
 
 ## Example
+
+`ZOZolaZoomTransition` ships with a fully functional demo project. Here's the basic idea:
 
 1. Implement the `UINavigationControllerDelegate` method:
 
@@ -16,8 +18,10 @@
                                                 fromViewController:(UIViewController *)fromVC
                                                   toViewController:(UIViewController *)toVC {
     
+    // Are we presenting or dismissing?
     ZOTransitionType type = (fromVC == self) ? ZOTransitionTypePresenting : ZOTransitionTypeDismissing;
     
+    // Create a transition instance with a target view (in this case a collection view cell's imageView)
     return [ZOZolaZoomTransition transitionFromView:_selectedCell.imageView
                                                type:type
                                            duration:0.6
@@ -25,7 +29,7 @@
 }
 ```
 
-2. Implement the two required `ZOZolaZoomTransitionDelegate` methods:
+2. Implement the two required `ZOZolaZoomTransitionDelegate` methods to provide the starting and finishing frames for the target view (see `ZOZolaZolaZoomTransition.h` for detailed documentation):
 
 ```objective-c
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
@@ -65,7 +69,7 @@
 
 TBD
 
-## Notes
+## Limitations
 
 TBD
 
