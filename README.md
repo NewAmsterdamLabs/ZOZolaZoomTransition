@@ -97,8 +97,17 @@ This is best illustrated with an example. The row of cells below is clipped by t
 <img src="Demo/Images/with_supplementary_views.jpg") alt="With supplementary views"/>
 </p>
 
-Setup Instructions
-------------------
+## App Extensions
+
+`ZOZolaZoomTransition` makes use of `UIApplication`'s `beginIgnoringInteractionEvents` and `endIgnoringInteractionEvents` methods which are not available inside of app extensions. To use `ZOZolaZoomTransition` in an extension, define the following preprocessor macro in the extension target's build settings: 
+`ZO_APP_EXTENSIONS=1`
+
+<p align="left">
+<img src="Demo/Images/app_extensions.jpg") alt="Preprocessor macro for app extensions"/>
+</p>
+
+## Setup Instructions
+
 Install with [CocoaPods](http://cocoapods.org) by adding the following to your Podfile:
 
 ``` ruby
