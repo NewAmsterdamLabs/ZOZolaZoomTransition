@@ -1,8 +1,6 @@
 # ZOZolaZoomTransition
 
-`ZOZolaZoomTransition` is an animated transition used extensively in the [Zola iOS application](https://itunes.apple.com/us/app/zola-wedding-registry-gifts/id852691916?mt=8)
-
-In addition to zooming a target view, it also animates the entire heirarchy in which the target view is a part of, resulting in a fluid "z-level" animation effect.
+`ZOZolaZoomTransition` is a zoom transition that animates the entire view heirarchy. It is used extensively in the [Zola iOS application](https://itunes.apple.com/us/app/zola-wedding-registry-gifts/id852691916?mt=8)
 
 It looks like this:
 <p align="left">
