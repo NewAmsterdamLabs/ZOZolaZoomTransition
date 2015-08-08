@@ -34,7 +34,7 @@ It looks like this:
   }
   ```
 
-2. Implement the two required `ZOZolaZoomTransitionDelegate` methods to provide the starting and finishing frames for the target view (see `ZOZolaZolaZoomTransition.h` for detailed documentation). Frames must be returned relative to the provided `relativeView`:
+2. Implement the two required `ZOZolaZoomTransitionDelegate` methods to provide the starting and finishing frames for the target view (see [ZOZolaZolaZoomTransition.h](ZOZolaZoomTransition/ZOZolaZoomTransition.h) for detailed documentation). Frames must be returned relative to the provided `relativeView`:
 
   ```objective-c
   - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
