@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
  controller transitions.
  
  @warning `ZOZolaZoomTransition` makes use of `UIApplication`'s `beginIgnoringInteractionEvents` and
- `endIgnoringInteractionEvents` which are not available inside of app extensions. To use
+ `endIgnoringInteractionEvents` methods which are not available inside of app extensions. To use
  `ZOZolaZoomTransition` in an extension, define the following preprocessor macro in the extension 
  target's build settings: ZO_APP_EXTENSIONS=1
  */
