@@ -82,7 +82,7 @@ It looks like this:
  2. To draw views that are clipped by the edge of the screen when the transition begins
     and therefore appear cut off during the animation.
 
-This is best illustrated with an example. The row of cells below is cropped by the bottom of the screen when the user taps the left most cell. Here are two screenshots mid-transition:
+This is best illustrated with an example. The row of cells below is clipped by the bottom of the screen when the user taps the left most cell. Here are two screenshots mid-transition:
 
 **Without supplementary views:**
 
