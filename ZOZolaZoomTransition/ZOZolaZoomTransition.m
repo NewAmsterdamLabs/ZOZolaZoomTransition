@@ -101,7 +101,10 @@
 #pragma mark - UIViewControllerAnimatedTransitioning Methods
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
+    
+#if !defined(ZO_APP_EXTENSIONS)
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+#endif
     
     UIView *containerView = [transitionContext containerView];
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
@@ -219,7 +222,9 @@
                              [fadeView removeFromSuperview];
                              [targetSnapshot removeFromSuperview];
                              
+#if !defined(ZO_APP_EXTENSIONS)
                              [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+#endif
                              
                              [transitionContext completeTransition:finished];
                          }];
@@ -309,7 +314,9 @@
                              [fadeView removeFromSuperview];
                              [targetSnapshot removeFromSuperview];
                              
+#if !defined(ZO_APP_EXTENSIONS)
                              [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+#endif
                              
                              [transitionContext completeTransition:finished];
                          }];
