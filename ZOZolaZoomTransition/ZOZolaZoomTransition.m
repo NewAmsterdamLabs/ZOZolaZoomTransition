@@ -195,11 +195,11 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             // Move and transform the "from" snapshot
+                             // Transform and move the "from" snapshot
                              fromControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
                              fromControllerSnapshot.frame = CGRectMake(endPoint.x, endPoint.y, fromControllerSnapshot.frame.size.width, fromControllerSnapshot.frame.size.height);
                              
-                             // Move and transform the supplementary container with the "from" snapshot
+                             // Transform and move the supplementary container with the "from" snapshot
                              supplementaryContainer.transform = fromControllerSnapshot.transform;
                              supplementaryContainer.frame = fromControllerSnapshot.frame;
                              
@@ -269,7 +269,7 @@
         toControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
         toControllerSnapshot.frame = CGRectMake(startPoint.x, startPoint.y, toControllerSnapshot.frame.size.width, toControllerSnapshot.frame.size.height);
         
-        // Apply the same starting position and transform to the supplementary container
+        // Apply the same transform and starting position to the supplementary container
         supplementaryContainer.transform = toControllerSnapshot.transform;
         supplementaryContainer.frame = toControllerSnapshot.frame;
         supplementaryContainer.alpha = 0.0;
@@ -289,7 +289,7 @@
                              toControllerSnapshot.transform = CGAffineTransformIdentity;
                              toControllerSnapshot.frame = toControllerView.frame;
                              
-                             // Move and transform the supplementary container with the "to" snapshot
+                             // Transform and move the supplementary container with the "to" snapshot
                              supplementaryContainer.transform = toControllerSnapshot.transform;
                              supplementaryContainer.frame = toControllerSnapshot.frame;
                              
