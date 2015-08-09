@@ -7,6 +7,7 @@ Pod::Spec.new do |s|
   s.author       = { "Charles Scalesse" => "charles@zola.com" }
   s.source       = { :git => "https://github.com/NewAmsterdamLabs/ZOZolaZoomTransition.git", :tag => "1.0.0" }
   s.platform     = :ios
+  s.ios.deployment_target = '7.0'
   s.source_files = 'ZOZolaZoomTransition'
   s.requires_arc = true
 end
