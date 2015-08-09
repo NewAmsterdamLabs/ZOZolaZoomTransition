@@ -1,6 +1,7 @@
 # ZOZolaZoomTransition
 
 [![Build Status](https://travis-ci.org/NewAmsterdamLabs/ZOZolaZoomTransition.svg?branch=master)](https://travis-ci.org/NewAmsterdamLabs/ZOZolaZoomTransition)
+[![CocoaPods Version](https://img.shields.io/cocoapods/v/ZOZolaZoomTransition.svg)](http://cocoadocs.org/docsets/ZOZolaZoomTransition)
 
 `ZOZolaZoomTransition` is a zoom transition that animates the entire view heirarchy. It is used extensively in the [Zola iOS application](https://itunes.apple.com/us/app/zola-wedding-registry-gifts/id852691916?mt=8).
 
