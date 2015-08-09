@@ -123,7 +123,7 @@ Or do it manually by adding `ZOZolaZoomTransition.h` & `ZOZolaZoomTransition.m` 
 
 ## Requirements
 
-`ZOZolaZoomTransition` requires iOS 7.0 or higher.
+`ZOZolaZoomTransition` requires iOS 7.0 or higher. 
 
 ## License
 
