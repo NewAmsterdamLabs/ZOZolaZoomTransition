@@ -121,6 +121,7 @@ Or do it manually by adding `ZOZolaZoomTransition.h` & `ZOZolaZoomTransition.m` 
 ## Limitations
 
 - `ZOZolaZoomTransition` currently only works with `UINavigationController` transitions. We still need to add support for modal transitions, ideally without changing the API. Pull requests welcome!
+- No support for interactive transitions yet (although this should be pretty straightforward to implement)
 
 ## Requirements
 
