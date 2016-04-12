@@ -164,6 +164,10 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
     if (fromViewComtroller == self) {
         // We're pushing to the detail controller. The finishing frame is taken from the detailController's imageView.
         ZODetailViewController *detailController = (ZODetailViewController *)toViewController;
+        /* Hack to make it work with Auto Layout */
+        [detailController.view setNeedsLayout];
+        [detailController.view layoutIfNeeded];
+        /* */
         return [detailController.imageView convertRect:detailController.imageView.bounds toView:relativeView];
     } else if ([fromViewComtroller isKindOfClass:[ZODetailViewController class]]) {
         // We're popping back to this master controller. The finishing frame is taken from the selected cell's imageView.
