@@ -138,6 +138,10 @@
                                    fromViewController:fromViewController
                                      toViewController:toViewController];
     
+    // Layout toViewController before asking for the finishing frame
+    [toViewController.view setNeedsLayout];
+    [toViewController.view layoutIfNeeded];
+    
     // Ask the delegate for the target view's finishing frame
     CGRect finishFrame = [_delegate zolaZoomTransition:self
                                  finishingFrameForView:_targetView
