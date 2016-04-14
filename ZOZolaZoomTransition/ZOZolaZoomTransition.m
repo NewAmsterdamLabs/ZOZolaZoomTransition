@@ -131,16 +131,19 @@
     backgroundView.backgroundColor = _fadeColor;
     [containerView addSubview:backgroundView];
     
+    if (_type == ZOTransitionTypePresenting) {
+        // Make sure the "to view" has been laid out if we're presenting. This needs
+        // to be done before we ask the delegate for frames.
+        [toViewController.view setNeedsLayout];
+        [toViewController.view layoutIfNeeded];
+    }
+    
     // Ask the delegate for the target view's starting frame
     CGRect startFrame = [_delegate zolaZoomTransition:self
                                  startingFrameForView:_targetView
                                        relativeToView:fromControllerView
                                    fromViewController:fromViewController
                                      toViewController:toViewController];
-    
-    // Layout toViewController before asking for the finishing frame
-    [toViewController.view setNeedsLayout];
-    [toViewController.view layoutIfNeeded];
     
     // Ask the delegate for the target view's finishing frame
     CGRect finishFrame = [_delegate zolaZoomTransition:self
