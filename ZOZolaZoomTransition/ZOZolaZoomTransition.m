@@ -134,8 +134,8 @@
     if (_type == ZOTransitionTypePresenting) {
         // Make sure the "to view" has been laid out if we're presenting. This needs
         // to be done before we ask the delegate for frames.
-        [toViewController.view setNeedsLayout];
-        [toViewController.view layoutIfNeeded];
+        [toControllerView setNeedsLayout];
+        [toControllerView layoutIfNeeded];
     }
     
     // Ask the delegate for the target view's starting frame
