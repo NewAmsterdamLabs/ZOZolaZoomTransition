@@ -158,14 +158,14 @@ static CGFloat ZOProductCellTextAreaHeight  = 40.0;
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
        finishingFrameForView:(UIView *)targetView
               relativeToView:(UIView *)relativeView
-          fromViewController:(UIViewController *)fromViewComtroller
+          fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController {
     
-    if (fromViewComtroller == self) {
+    if (fromViewController == self) {
         // We're pushing to the detail controller. The finishing frame is taken from the detailController's imageView.
         ZODetailViewController *detailController = (ZODetailViewController *)toViewController;
         return [detailController.imageView convertRect:detailController.imageView.bounds toView:relativeView];
-    } else if ([fromViewComtroller isKindOfClass:[ZODetailViewController class]]) {
+    } else if ([fromViewController isKindOfClass:[ZODetailViewController class]]) {
         // We're popping back to this master controller. The finishing frame is taken from the selected cell's imageView.
         return [_selectedCell.imageView convertRect:_selectedCell.imageView.bounds toView:relativeView];
     }

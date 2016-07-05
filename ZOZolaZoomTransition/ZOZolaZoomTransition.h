@@ -140,7 +140,7 @@ typedef NS_ENUM(NSInteger, ZOTransitionType) {
 - (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
        finishingFrameForView:(UIView *)targetView
               relativeToView:(UIView *)relativeView
-          fromViewController:(UIViewController *)fromViewComtroller
+          fromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController;
 
 @optional
