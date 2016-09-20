@@ -36,6 +36,9 @@
  * presenting are already in the hierarchy and can use the newer API. The
  * opposite is true when dismissing, so we rely on this category.
  *
+ * NOTE: The iOS simulator always uses this category over snapshotViewAfterScreenUpdates:
+ * due to inconsistencies with the iOS10 simulators.
+ *
  */
 - (UIImage *)zo_snapshot;
 
@@ -154,7 +157,11 @@
     
     if (_type == ZOTransitionTypePresenting) {
         // The "from" snapshot
+#if TARGET_IPHONE_SIMULATOR
+        UIView *fromControllerSnapshot = [[UIImageView alloc] initWithImage:[fromControllerView zo_snapshot]];
+#else
         UIView *fromControllerSnapshot = [fromControllerView snapshotViewAfterScreenUpdates:NO];
+#endif
         
         // The fade view will sit between the "from" snapshot and the target snapshot.
         // This is what is used to create the fade effect.
@@ -163,7 +170,11 @@
         fadeView.alpha = 0.0;
         
         // The star of the show
+#if TARGET_IPHONE_SIMULATOR
+        UIView *targetSnapshot = [[UIImageView alloc] initWithImage:[_targetView zo_snapshot]];
+#else
         UIView *targetSnapshot = [_targetView snapshotViewAfterScreenUpdates:NO];
+#endif
         targetSnapshot.frame = startFrame;
         
         // Check if the delegate provides any supplementary views
@@ -179,7 +190,11 @@
         UIView *supplementaryContainer = [[UIView alloc] initWithFrame:containerView.bounds];
         supplementaryContainer.backgroundColor = [UIColor clearColor];
         for (UIView *supplementaryView in supplementaryViews) {
+#if TARGET_IPHONE_SIMULATOR
+            UIView *supplementarySnapshot = [[UIImageView alloc] initWithImage:[supplementaryView zo_snapshot]];
+#else
             UIView *supplementarySnapshot = [supplementaryView snapshotViewAfterScreenUpdates:NO];
+#endif
             
             supplementarySnapshot.frame = [_delegate zolaZoomTransition:self
                                               frameForSupplementaryView:supplementaryView
