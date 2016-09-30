@@ -183,7 +183,7 @@
             NSAssert([_delegate respondsToSelector:@selector(zolaZoomTransition:frameForSupplementaryView:relativeToView:)], @"supplementaryViewsForZolaZoomTransition: requires zolaZoomTransition:frameForSupplementaryView:relativeToView: to be implemented by the delegate. Implement zolaZoomTransition:frameForSupplementaryView:relativeToView: and try again.");
             supplementaryViews = [_delegate supplementaryViewsForZolaZoomTransition:self];
         }
-
+        
         // All supplementary snapshots are added to a container, and then the same transform
         // that we're going to apply to the "from" controller snapshot will be applied to the
         // supplementary container
@@ -222,18 +222,20 @@
                          animations:^{
                              // Transform and move the "from" snapshot
                              fromControllerSnapshot.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
-                             fromControllerSnapshot.frame = CGRectMake(endPoint.x, endPoint.y, fromControllerSnapshot.frame.size.width, fromControllerSnapshot.frame.size.height);
-                             
-                             // Transform and move the supplementary container with the "from" snapshot
-                             supplementaryContainer.transform = fromControllerSnapshot.transform;
-                             supplementaryContainer.frame = fromControllerSnapshot.frame;
-                             
-                             // Fade
-                             fadeView.alpha = 1.0;
-                             supplementaryContainer.alpha = 0.0;
-                             
-                             // Move our target snapshot into position
-                             targetSnapshot.frame = finishFrame;
+                             if (!isnan(endPoint.x) && !isnan(endPoint.y)) {
+                                 fromControllerSnapshot.frame = CGRectMake(endPoint.x, endPoint.y, fromControllerSnapshot.frame.size.width, fromControllerSnapshot.frame.size.height);
+                                 
+                                 // Transform and move the supplementary container with the "from" snapshot
+                                 supplementaryContainer.transform = fromControllerSnapshot.transform;
+                                 supplementaryContainer.frame = fromControllerSnapshot.frame;
+                                 
+                                 // Fade
+                                 fadeView.alpha = 1.0;
+                                 supplementaryContainer.alpha = 0.0;
+                                 
+                                 // Move our target snapshot into position
+                                 targetSnapshot.frame = finishFrame;
+                             }
                          } completion:^(BOOL finished) {
                              // Add "to" controller view
                              [containerView addSubview:toControllerView];
