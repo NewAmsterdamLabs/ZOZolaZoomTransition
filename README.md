@@ -113,7 +113,7 @@ Install with [CocoaPods](http://cocoapods.org) by adding the following to your P
 
 ``` ruby
 platform :ios, '7.0'
-pod 'ZOZolaZoomTransition', '~> 1.0.0'
+pod 'ZOZolaZoomTransition', '~> 1.0.1'
 ```
 
 Or do it manually by adding `ZOZolaZoomTransition.h` & `ZOZolaZoomTransition.m` to your project.
