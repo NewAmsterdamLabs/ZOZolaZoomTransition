@@ -316,8 +316,6 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             if (!isnan(endPoint.x) && !isnan(endPoint.y)) {
-
                              // Put the "to" snapshot back to it's original state
                              toControllerSnapshot.transform = CGAffineTransformIdentity;
                              toControllerSnapshot.frame = toControllerView.frame;
